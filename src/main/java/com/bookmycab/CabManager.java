@@ -15,6 +15,6 @@ public class CabManager {
     }
 
     public void endTrip(Object booking) {
-
+        hasCab = true;
     }
 }
