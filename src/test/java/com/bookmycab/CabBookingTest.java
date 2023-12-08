@@ -36,4 +36,13 @@ public class CabBookingTest {
         cabManager.endTrip(booking);
         assertNotNull(cabManager.book());
     }
+
+    @Test
+    public void withTwoRegisteredCabsTwoBookingsSucceed() {
+        CabManager cabManager = new CabManager();
+        cabManager.register("cab-1");
+        cabManager.register("cab-2");
+        assertNotNull(cabManager.book());
+        assertNotNull(cabManager.book());
+    }
 }
