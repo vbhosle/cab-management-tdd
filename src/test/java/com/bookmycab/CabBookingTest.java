@@ -18,4 +18,12 @@ public class CabBookingTest {
         cabManager.register("cab-1");
         assertNotNull(cabManager.book());
     }
+
+    @Test
+    public void oneCabRegisteredThenTwoBookingsAreRequestedOneSucceedsOtherFails() {
+        CabManager cabManager = new CabManager();
+        cabManager.register("cab-1");
+        assertNotNull(cabManager.book());
+        assertThrows(CabsNotAvailableException.class, cabManager::book);
+    }
 }
