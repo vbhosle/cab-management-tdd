@@ -1,20 +1,20 @@
 package com.bookmycab;
 
 public class CabManager {
-    public boolean hasCab = false;
+    public int availableCabs = 0;
 
     public Object book() {
-        if(!hasCab)
+        if(availableCabs == 0)
             throw new CabsNotAvailableException();
-        hasCab = false;
+        availableCabs--;
         return new Object();
     }
 
     public void register(String cabId) {
-        hasCab = true;
+        availableCabs++;
     }
 
     public void endTrip(Object booking) {
-        hasCab = true;
+        availableCabs--;
     }
 }
