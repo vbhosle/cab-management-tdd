@@ -7,7 +7,7 @@ public class CabManager {
         if(availableCabs == 0)
             throw new CabsNotAvailableException();
         availableCabs--;
-        return new Object();
+        return "cab-2";
     }
 
     public void register(String cabId) {
@@ -15,6 +15,6 @@ public class CabManager {
     }
 
     public void endTrip(Object booking) {
-        availableCabs--;
+        availableCabs++;
     }
 }

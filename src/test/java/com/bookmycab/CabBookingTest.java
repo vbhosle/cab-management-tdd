@@ -2,6 +2,9 @@ package com.bookmycab;
 
 import org.junit.Test;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 
@@ -44,5 +47,16 @@ public class CabBookingTest {
         cabManager.register("cab-2");
         assertNotNull(cabManager.book());
         assertNotNull(cabManager.book());
+    }
+
+    @Test
+    public void withTwoRegisteredCabsNewlyRegisteredCabIsBookedFirst() {
+        CabManager cabManager = new CabManager();
+        cabManager.register("cab-1");
+        cabManager.register("cab-2");
+        Object booking = cabManager.book();
+        assertThat(booking, equalTo("cab-2"));
+        Object booking2 = cabManager.book();
+        assertThat(booking2, equalTo("cab-1"));
     }
 }
