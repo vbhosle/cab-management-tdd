@@ -26,4 +26,14 @@ public class CabBookingTest {
         assertNotNull(cabManager.book());
         assertThrows(CabsNotAvailableException.class, cabManager::book);
     }
+
+    @Test
+    public void inOneCabSystemBookACabEndTripBookAgain() {
+        CabManager cabManager = new CabManager();
+        cabManager.register("cab-1");
+        Object booking = cabManager.book();
+        assertNotNull(booking);
+        cabManager.endTrip(booking);
+        assertNotNull(cabManager.book());
+    }
 }

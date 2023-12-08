@@ -13,4 +13,8 @@ public class CabManager {
     public void register(String cabId) {
         hasCab = true;
     }
+
+    public void endTrip(Object booking) {
+
+    }
 }
