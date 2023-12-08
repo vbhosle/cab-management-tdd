@@ -6,6 +6,7 @@ public class CabManager {
     public Object book() {
         if(!hasCab)
             throw new CabsNotAvailableException();
+        hasCab = false;
         return new Object();
     }
 
