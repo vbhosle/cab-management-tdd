@@ -1,20 +1,25 @@
 package com.bookmycab;
 
-public class CabManager {
-    public int availableCabs = 0;
+import java.util.LinkedList;
 
-    public Object book() {
-        if(availableCabs == 0)
+public class CabManager {
+    private LinkedList<String> idleCabList = new LinkedList<>();
+    private LinkedList<String> onTripCabList = new LinkedList<>();
+
+    public String book() {
+        if(idleCabList.isEmpty())
             throw new CabsNotAvailableException();
-        availableCabs--;
-        return new Object();
+        String cabId = idleCabList.removeFirst();
+        onTripCabList.add(cabId);
+        return cabId;
     }
 
     public void register(String cabId) {
-        availableCabs++;
+        idleCabList.add(cabId);
     }
 
-    public void endTrip(Object booking) {
-        availableCabs++;
+    public void endTrip(String cabId) {
+        onTripCabList.remove(cabId);
+        idleCabList.add(cabId);
     }
 }

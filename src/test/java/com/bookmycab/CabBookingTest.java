@@ -2,11 +2,7 @@ package com.bookmycab;
 
 import org.junit.Test;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.*;
 
 public class CabBookingTest {
 
@@ -16,17 +12,17 @@ public class CabBookingTest {
     }
 
     @Test
-    public void oneCabRegisteredThenBookingIsReturned() {
+    public void oneCabRegisteredThenThatCabIsBooked() {
         CabManager cabManager = new CabManager();
         cabManager.register("cab-1");
-        assertNotNull(cabManager.book());
+        assertEquals("cab-1", cabManager.book());
     }
 
     @Test
     public void oneCabRegisteredThenTwoBookingsAreRequestedOneSucceedsOtherFails() {
         CabManager cabManager = new CabManager();
         cabManager.register("cab-1");
-        assertNotNull(cabManager.book());
+        assertEquals("cab-1", cabManager.book());
         assertThrows(CabsNotAvailableException.class, cabManager::book);
     }
 
@@ -34,10 +30,11 @@ public class CabBookingTest {
     public void inOneCabSystemBookACabEndTripBookAgain() {
         CabManager cabManager = new CabManager();
         cabManager.register("cab-1");
-        Object booking = cabManager.book();
+        String booking = cabManager.book();
+        assertEquals("cab-1", booking);
         assertNotNull(booking);
         cabManager.endTrip(booking);
-        assertNotNull(cabManager.book());
+        assertEquals("cab-1", cabManager.book());
     }
 
     @Test
