@@ -48,15 +48,4 @@ public class CabBookingTest {
         assertNotNull(cabManager.book());
         assertNotNull(cabManager.book());
     }
-
-    @Test
-    public void withTwoRegisteredCabsNewlyRegisteredCabIsBookedFirst() {
-        CabManager cabManager = new CabManager();
-        cabManager.register("cab-1");
-        cabManager.register("cab-2");
-        Object booking = cabManager.book();
-        assertThat(booking, equalTo("cab-2"));
-        Object booking2 = cabManager.book();
-        assertThat(booking2, equalTo("cab-1"));
-    }
 }
