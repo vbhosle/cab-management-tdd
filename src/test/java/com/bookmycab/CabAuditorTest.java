@@ -24,8 +24,9 @@ public class CabAuditorTest {
 
     @Test
     public void cabRegistrationIsRecordedByCabAuditor() {
-        new CabManager().register("cab-1");
-        List<CabAuditRecord> cabAuditHistory = new CabAuditor().get("cab-1");
+        CabAuditor cabAuditor = new CabAuditor();
+        new CabManager(cabAuditor).register("cab-1");
+        List<CabAuditRecord> cabAuditHistory = cabAuditor.get("cab-1");
         assertThat(cabAuditHistory, hasSize(1));
         assertThat(cabAuditHistory.get(0).getCabSnapshot().getCabId(), is("cab-1"));
     }

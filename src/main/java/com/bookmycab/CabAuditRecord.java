@@ -3,7 +3,13 @@ package com.bookmycab;
 import com.bookmycab.history.CabSnapshot;
 
 public class CabAuditRecord {
+    private final CabSnapshot cabSnapshot;
+
+    public CabAuditRecord(CabSnapshot cabSnapshot) {
+        this.cabSnapshot = cabSnapshot;
+    }
+
     public CabSnapshot getCabSnapshot() {
-        return null;
+        return this.cabSnapshot;
     }
 }

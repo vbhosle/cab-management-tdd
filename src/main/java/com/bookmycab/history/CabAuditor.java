@@ -2,11 +2,19 @@ package com.bookmycab.history;
 
 import com.bookmycab.CabAuditRecord;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class CabAuditor {
+    private Map<String, List<CabAuditRecord>> cabAuditHistory = new HashMap<>();
+
     public List<CabAuditRecord> get(String cabId) {
-        return Collections.emptyList();
+        return cabAuditHistory.getOrDefault(cabId, Collections.emptyList());
+    }
+
+    public void record(CabSnapshot cabSnapshot) {
+        if (!cabAuditHistory.containsKey(cabSnapshot.getCabId())) {
+            cabAuditHistory.put(cabSnapshot.getCabId(), new ArrayList<>());
+        }
+        cabAuditHistory.get(cabSnapshot.getCabId()).add(new CabAuditRecord(cabSnapshot));
     }
 }
