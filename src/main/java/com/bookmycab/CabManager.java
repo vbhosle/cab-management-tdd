@@ -4,6 +4,7 @@ import com.bookmycab.history.CabAuditor;
 import com.bookmycab.history.CabSnapshot;
 import com.bookmycab.time.Clock;
 
+import java.time.Duration;
 import java.util.LinkedList;
 
 public class CabManager {
@@ -44,5 +45,9 @@ public class CabManager {
 
     public void updateLocation(String cabId, String newLocation) {
         cabAuditor.record(new CabSnapshot(cabId, newLocation), null);
+    }
+
+    public Duration getIdleTime(String cabId) {
+        return null;
     }
 }
