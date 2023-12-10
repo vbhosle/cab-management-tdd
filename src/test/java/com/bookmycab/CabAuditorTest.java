@@ -22,12 +22,16 @@ public class CabAuditorTest {
     }
 
     @Test
-    public void cabRegistrationIsRecordedByCabAuditor() {
+    public void cabRegistrationIsRecordedByCabAuditorAsVersion1() {
         CabAuditor cabAuditor = new CabAuditor();
         new CabManager(cabAuditor).register("cab-1");
         List<CabAuditRecord> cabAuditHistory = cabAuditor.get("cab-1");
+
         assertThat(cabAuditHistory, hasSize(1));
-        assertThat(cabAuditHistory.get(0).getCabSnapshot().getCabId(), is("cab-1"));
+
+        CabAuditRecord cabAuditRecord = cabAuditHistory.get(0);
+        assertThat(cabAuditRecord.getVersion(), is(1L));
+        assertThat(cabAuditRecord.getCabSnapshot().getCabId(), is("cab-1"));
     }
 
     @Test

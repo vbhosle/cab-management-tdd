@@ -12,4 +12,8 @@ public class CabAuditRecord {
     public CabSnapshot getCabSnapshot() {
         return this.cabSnapshot;
     }
+
+    public long getVersion() {
+        return 1L;
+    }
 }
