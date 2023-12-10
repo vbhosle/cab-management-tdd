@@ -15,4 +15,12 @@ public class CabIdleTimeTest {
         cabManager.register("cab-1");
         assertThat(cabManager.getIdleTime("cab-1"), equalTo(Duration.ofMinutes(1)));
     }
+
+    @Test
+    public void cabIdleTimeIncreasePostRegistrationAsTimePasses() {
+        CabManager cabManager = new CabManager();
+        cabManager.register("cab-1");
+        assertThat(cabManager.getIdleTime("cab-1"), equalTo(Duration.ofMinutes(1)));
+        assertThat(cabManager.getIdleTime("cab-1"), equalTo(Duration.ofMinutes(2)));
+    }
 }
