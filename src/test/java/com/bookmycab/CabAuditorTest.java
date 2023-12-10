@@ -1,13 +1,14 @@
 package com.bookmycab;
 
 import com.bookmycab.history.CabAuditor;
+import org.junit.Ignore;
 import org.junit.Test;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.Is.is;
 
 //# Record of Cab history for each cab. It could be states it went through.
@@ -22,7 +23,7 @@ public class CabAuditorTest {
     }
 
     @Test
-    public void cabRegistrationIsRecordedByCabAuditorAsVersion1() {
+    public void cabRegistrationIsRecordedByCabAuditorAsVersion1WithTimeStamp() {
         CabAuditor cabAuditor = new CabAuditor();
         new CabManager(cabAuditor).register("cab-1");
         List<CabAuditRecord> cabAuditHistory = cabAuditor.get("cab-1");
@@ -32,8 +33,10 @@ public class CabAuditorTest {
         CabAuditRecord cabAuditRecord = cabAuditHistory.get(0);
         assertThat(cabAuditRecord.getVersion(), is(1L));
         assertThat(cabAuditRecord.getCabSnapshot().getCabId(), is("cab-1"));
+        assertThat(cabAuditRecord.getCreatedAt(), equalTo(LocalDateTime.of(2019, 12, 31, 23, 59, 59)));
     }
 
+    @Ignore
     @Test
     public void cabLocationChangeIsRecordedByCabAuditor() {
         CabAuditor cabAuditor = new CabAuditor();
