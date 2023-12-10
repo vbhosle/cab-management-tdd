@@ -29,11 +29,15 @@ public class CabManager {
 
     public void register(String cabId) {
         idleCabList.add(cabId);
-        cabAuditor.record(new CabSnapshot(cabId));
+        cabAuditor.record(new CabSnapshot(cabId, ""));
     }
 
     public void endTrip(String cabId) {
         onTripCabList.remove(cabId);
         idleCabList.add(cabId);
+    }
+
+    public void updateLocation(String cabId, String newLocation) {
+        cabAuditor.record(new CabSnapshot(cabId, newLocation));
     }
 }

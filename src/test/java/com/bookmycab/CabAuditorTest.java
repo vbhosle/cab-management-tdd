@@ -3,7 +3,6 @@ package com.bookmycab;
 import com.bookmycab.history.CabAuditor;
 import org.junit.Test;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -29,5 +28,18 @@ public class CabAuditorTest {
         List<CabAuditRecord> cabAuditHistory = cabAuditor.get("cab-1");
         assertThat(cabAuditHistory, hasSize(1));
         assertThat(cabAuditHistory.get(0).getCabSnapshot().getCabId(), is("cab-1"));
+    }
+
+    @Test
+    public void cabLocationChangeIsRecordedByCabAuditor() {
+        CabAuditor cabAuditor = new CabAuditor();
+        CabManager cabManager = new CabManager(cabAuditor);
+        cabManager.register("cab-1");
+        cabManager.updateLocation("cab-1", "newyork");
+        List<CabAuditRecord> cabAuditHistory = cabAuditor.get("cab-1");
+        assertThat(cabAuditHistory, hasSize(2));
+        assertThat(cabAuditHistory.get(0).getCabSnapshot().getCabId(), is("cab-1"));
+        assertThat(cabAuditHistory.get(1).getCabSnapshot().getCabId(), is("cab-1"));
+        assertThat(cabAuditHistory.get(1).getCabSnapshot().getLocation(), is("newyork"));
     }
 }
