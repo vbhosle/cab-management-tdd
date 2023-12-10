@@ -6,9 +6,11 @@ import java.time.LocalDateTime;
 
 public class CabAuditRecord {
     private final CabSnapshot cabSnapshot;
+    private final LocalDateTime createdAt;
 
-    public CabAuditRecord(CabSnapshot cabSnapshot) {
+    public CabAuditRecord(CabSnapshot cabSnapshot, LocalDateTime createdAt) {
         this.cabSnapshot = cabSnapshot;
+        this.createdAt = createdAt;
     }
 
     public CabSnapshot getCabSnapshot() {
@@ -20,6 +22,6 @@ public class CabAuditRecord {
     }
 
     public LocalDateTime getCreatedAt() {
-        return null;
+        return this.createdAt;
     }
 }
