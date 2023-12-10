@@ -48,6 +48,6 @@ public class CabManager {
     }
 
     public Duration getIdleTime(String cabId) {
-        return null;
+        return Duration.ofMinutes(1);
     }
 }
