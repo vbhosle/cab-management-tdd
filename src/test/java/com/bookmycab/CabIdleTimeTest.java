@@ -20,12 +20,15 @@ public class CabIdleTimeTest {
     public void cabIdleFor1MinutePostRegistration() {
         Clock mockClock = Mockito.mock(Clock.class);
         final LocalDate FIXED_DATE = LocalDate.of(2019, 12, 31);
-        doReturn(LocalDateTime.of(FIXED_DATE, LocalTime.of(1, 0)))
+        final LocalTime FIXED_TIME = LocalTime.of(1, 0);
+        final LocalDateTime FIXED_DATE_TIME = LocalDateTime.of(FIXED_DATE, FIXED_TIME);
+
+        doReturn(FIXED_DATE_TIME)
                 .when(mockClock).now();
         CabManager cabManager = new CabManager(new CabAuditor(), mockClock);
         cabManager.register("cab-1");
 
-        doReturn(LocalDateTime.of(FIXED_DATE, LocalTime.of(1, 1)))
+        doReturn(FIXED_DATE_TIME.plusMinutes(1))
                 .when(mockClock).now();
         assertThat(cabManager.getIdleTime("cab-1"), equalTo(Duration.ofMinutes(1)));
     }
@@ -34,16 +37,19 @@ public class CabIdleTimeTest {
     public void cabIdleTimeIncreasePostRegistrationAsTimePasses() {
         Clock mockClock = Mockito.mock(Clock.class);
         final LocalDate FIXED_DATE = LocalDate.of(2019, 12, 31);
-        doReturn(LocalDateTime.of(FIXED_DATE, LocalTime.of(1, 0)))
+        final LocalTime FIXED_TIME = LocalTime.of(1, 0);
+        final LocalDateTime FIXED_DATE_TIME = LocalDateTime.of(FIXED_DATE, FIXED_TIME);
+
+        doReturn(FIXED_DATE_TIME)
                 .when(mockClock).now();
         CabManager cabManager = new CabManager(new CabAuditor(), mockClock);
         cabManager.register("cab-1");
 
-        doReturn(LocalDateTime.of(FIXED_DATE, LocalTime.of(1, 1)))
+        doReturn(FIXED_DATE_TIME.plusMinutes(1))
                 .when(mockClock).now();
         assertThat(cabManager.getIdleTime("cab-1"), equalTo(Duration.ofMinutes(1)));
 
-        doReturn(LocalDateTime.of(FIXED_DATE, LocalTime.of(1, 2)))
+        doReturn(FIXED_DATE_TIME.plusMinutes(2))
                 .when(mockClock).now();
         assertThat(cabManager.getIdleTime("cab-1"), equalTo(Duration.ofMinutes(2)));
     }
