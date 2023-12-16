@@ -63,4 +63,8 @@ public class CabManager {
     public void book(String city) {
         throw new ServiceUnavailableInTheCityException();
     }
+
+    public void onboardCity(String city) {
+
+    }
 }

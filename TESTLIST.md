@@ -3,6 +3,7 @@
    if a city is onboarded, and cab is not registered, then book fails with CabNotAvailableException
    if a city is onboarded, and cab is registered and ON_TRIP, then book fails with CabNotAvailableException
    if a city is onboarded, and cab is registered and IDLE, then booking succeeds.
+   trying to onboard a city that is already onboarded, fails with CityAlreadyOnboardedException
 
 2. Change current city (location) of any cab.
    trying to change city of non-registered cabId fails with CabDoesNotExistException

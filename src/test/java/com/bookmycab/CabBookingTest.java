@@ -12,8 +12,10 @@ public class CabBookingTest {
     }
 
     @Test
-    public void cabsNotAvailableExceptionWhenNoRegisteredCabs() {
-        assertThrows(CabsNotAvailableException.class, () -> new CabManager().book());
+    public void cabsNotAvailableExceptionWhenNoRegisteredCabsInTheCity() {
+        CabManager cabManager = new CabManager();
+        cabManager.onboardCity("city-1");
+        assertThrows(CabsNotAvailableException.class, () -> new CabManager().book("city-1"));
     }
 
     @Test
