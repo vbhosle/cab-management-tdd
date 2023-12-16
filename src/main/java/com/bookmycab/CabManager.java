@@ -70,4 +70,8 @@ public class CabManager {
     public void onboardCity(String city) {
         this.onboardedCities.add(city);
     }
+
+    public void register(String cityId, String cabId) {
+
+    }
 }

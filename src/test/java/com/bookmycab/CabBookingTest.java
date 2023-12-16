@@ -31,7 +31,8 @@ public class CabBookingTest {
     @Test
     public void oneCabRegisteredThenThatCabIsBooked() {
         CabManager cabManager = new CabManager();
-        cabManager.register("cab-1");
+        cabManager.onboardCity("city-1");
+        cabManager.register("city-1", "cab-1");
         assertEquals("cab-1", cabManager.book());
     }
 
