@@ -37,6 +37,15 @@ public class CabBookingTest {
     }
 
     @Test
+    public void cabIsInCity1BookingFromAnotherCityFails() {
+        CabManager cabManager = new CabManager();
+        cabManager.onboardCity("city-1");
+        cabManager.onboardCity("city-2");
+        cabManager.register("city-1", "cab-1");
+        assertThrows(CabsNotAvailableException.class, () -> cabManager.book("city-2"));
+    }
+
+    @Test
     public void oneCabRegisteredThenTwoBookingsAreRequestedOneSucceedsOtherFails() {
         CabManager cabManager = new CabManager();
         cabManager.register("cab-1");
