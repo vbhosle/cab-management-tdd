@@ -26,7 +26,8 @@ public class CabIdleTimeTest {
         doReturn(FIXED_DATE_TIME)
                 .when(mockClock).now();
         CabManager cabManager = new CabManager(new CabAuditor(), mockClock);
-        cabManager.register("cab-1");
+        cabManager.onboardCity("city-1");
+        cabManager.register("city-1", "cab-1");
 
         doReturn(FIXED_DATE_TIME.plusMinutes(1))
                 .when(mockClock).now();
@@ -43,7 +44,8 @@ public class CabIdleTimeTest {
         doReturn(FIXED_DATE_TIME)
                 .when(mockClock).now();
         CabManager cabManager = new CabManager(new CabAuditor(), mockClock);
-        cabManager.register("cab-1");
+        cabManager.onboardCity("city-1");
+        cabManager.register("city-1", "cab-1");
 
         doReturn(FIXED_DATE_TIME.plusMinutes(1))
                 .when(mockClock).now();

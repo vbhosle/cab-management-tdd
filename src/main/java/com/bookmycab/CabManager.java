@@ -32,22 +32,6 @@ public class CabManager {
         this.clock = clock;
     }
 
-    public String book() {
-        if(idleCabList.isEmpty())
-            throw new CabsNotAvailableException();
-        String cabId = idleCabList.removeFirst();
-        cabLastIdleTime.remove(cabId);
-        onTripCabList.add(cabId);
-        return cabId;
-    }
-
-    public void register(String cabId) {
-        LocalDateTime now = clock.now();
-        cabLastIdleTime.put(cabId, now);
-        idleCabList.add(cabId);
-        cabAuditor.record(new CabSnapshot(cabId, ""), now);
-    }
-
     public void endTrip(String cabId) {
         onTripCabList.remove(cabId);
         cabLastIdleTime.put(cabId, clock.now());

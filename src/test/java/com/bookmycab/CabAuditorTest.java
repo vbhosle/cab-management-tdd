@@ -26,7 +26,9 @@ public class CabAuditorTest {
         Clock mockClock = Mockito.mock(Clock.class);
         doReturn(now).when(mockClock).now();
         CabAuditor cabAuditor = new CabAuditor();
-        new CabManager(cabAuditor, mockClock).register("cab-1");
+        CabManager cabManager = new CabManager(cabAuditor, mockClock);
+        cabManager.onboardCity("city-1");
+        cabManager.register("city-1", "cab-1");
         List<CabAuditRecord> cabAuditHistory = cabAuditor.get("cab-1");
 
         assertThat(cabAuditHistory, hasSize(1));
@@ -42,7 +44,8 @@ public class CabAuditorTest {
     public void cabLocationChangeIsRecordedByCabAuditor() {
         CabAuditor cabAuditor = new CabAuditor();
         CabManager cabManager = new CabManager(cabAuditor, null);
-        cabManager.register("cab-1");
+        cabManager.onboardCity("city-1");
+        cabManager.register("city-1", "cab-1");
         cabManager.updateLocation("cab-1", "newyork");
         List<CabAuditRecord> cabAuditHistory = cabAuditor.get("cab-1");
         assertThat(cabAuditHistory, hasSize(2));
