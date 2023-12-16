@@ -61,7 +61,7 @@ public class CabManager {
         return Duration.between(cabLastIdleTime.get(cabId), clock.now());
     }
 
-    public void book(String city) {
+    public String book(String city) {
         if(!this.onboardedCities.contains(city))
             throw new ServiceUnavailableInTheCityException();
         throw new CabsNotAvailableException();

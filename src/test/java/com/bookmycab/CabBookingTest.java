@@ -33,7 +33,7 @@ public class CabBookingTest {
         CabManager cabManager = new CabManager();
         cabManager.onboardCity("city-1");
         cabManager.register("city-1", "cab-1");
-        assertEquals("cab-1", cabManager.book());
+        assertEquals("cab-1", cabManager.book("city-1"));
     }
 
     @Test
