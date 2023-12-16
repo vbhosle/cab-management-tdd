@@ -20,6 +20,8 @@ public class CabManager {
 
     private final CabAuditor cabAuditor;
 
+    private boolean isCityOnboarded = false;
+
     public CabManager() {
         cabAuditor = new CabAuditor();
         clock = new Clock();
@@ -61,10 +63,12 @@ public class CabManager {
     }
 
     public void book(String city) {
-        throw new ServiceUnavailableInTheCityException();
+        if(!this.isCityOnboarded)
+            throw new ServiceUnavailableInTheCityException();
+        throw new CabsNotAvailableException();
     }
 
     public void onboardCity(String city) {
-
+        this.isCityOnboarded = true;
     }
 }
