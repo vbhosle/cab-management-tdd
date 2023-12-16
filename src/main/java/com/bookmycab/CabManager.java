@@ -10,7 +10,9 @@ import java.util.*;
 
 public class CabManager {
     private LinkedList<String> idleCabList = new LinkedList<>();
+    private Map<String, LinkedList<String>> cityToIdleCabList = new HashMap<>();
     private LinkedList<String> onTripCabList = new LinkedList<>();
+    private Map<String, LinkedList<String>> cityToOnTripCabList = new HashMap<>();
 
     private final Map<String, LocalDateTime> cabLastIdleTime = new HashMap<>();
 
@@ -63,16 +65,24 @@ public class CabManager {
     public String book(String city) {
         if(!this.onboardedCities.contains(city))
             throw new ServiceUnavailableInTheCityException();
-        if(idleCabList.isEmpty())
+        if(cityToIdleCabList.get(city).isEmpty())
             throw new CabsNotAvailableException();
-        return book();
+        String cabId = cityToIdleCabList.get(city).removeFirst();
+        cityToIdleCabList.get(city).remove(cabId);
+        cityToOnTripCabList.get(city).add(cabId);
+        return cabId;
     }
 
     public void onboardCity(String city) {
+        this.cityToIdleCabList.put(city, new LinkedList<>());
+        this.cityToOnTripCabList.put(city, new LinkedList<>());
         this.onboardedCities.add(city);
     }
 
     public void register(String cityId, String cabId) {
-        register(cabId);
+        LocalDateTime now = clock.now();
+        cabLastIdleTime.put(cabId, now);
+        this.cityToIdleCabList.get(cityId).add(cabId);
+        cabAuditor.record(new CabSnapshot(cabId, ""), now);
     }
 }
