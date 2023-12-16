@@ -33,7 +33,8 @@ public class CabBookingTest {
         CabManager cabManager = new CabManager();
         cabManager.onboardCity("city-1");
         cabManager.register("city-1", "cab-1");
-        assertEquals("cab-1", cabManager.book("city-1"));
+        Booking booking = cabManager.book("city-1");
+        assertEquals("cab-1", booking.getCabId());
     }
 
     @Test
@@ -50,7 +51,7 @@ public class CabBookingTest {
         CabManager cabManager = new CabManager();
         cabManager.onboardCity("city-1");
         cabManager.register("city-1", "cab-1");
-        assertEquals("cab-1", cabManager.book("city-1"));
+        assertEquals("cab-1", cabManager.book("city-1").getCabId());
         assertThrows(CabsNotAvailableException.class, () -> cabManager.book("city-1"));
     }
 
@@ -59,11 +60,11 @@ public class CabBookingTest {
         CabManager cabManager = new CabManager();
         cabManager.onboardCity("city-1");
         cabManager.register("city-1", "cab-1");
-        String booking = cabManager.book("city-1");
-        assertEquals("cab-1", booking);
+        Booking booking = cabManager.book("city-1");
+        assertEquals("cab-1", booking.getCabId());
         assertNotNull(booking);
         cabManager.endTrip(booking);
-        assertEquals("cab-1", cabManager.book("city-1"));
+        assertEquals("cab-1", cabManager.book("city-1").getCabId());
     }
 
     @Test

@@ -9,9 +9,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 public class CabManager {
-    private LinkedList<String> idleCabList = new LinkedList<>();
     private Map<String, LinkedList<String>> cityToIdleCabList = new HashMap<>();
-    private LinkedList<String> onTripCabList = new LinkedList<>();
     private Map<String, LinkedList<String>> cityToOnTripCabList = new HashMap<>();
 
     private final Map<String, LocalDateTime> cabLastIdleTime = new HashMap<>();
@@ -32,10 +30,10 @@ public class CabManager {
         this.clock = clock;
     }
 
-    public void endTrip(String cabId) {
-        onTripCabList.remove(cabId);
-        cabLastIdleTime.put(cabId, clock.now());
-        idleCabList.add(cabId);
+    public void endTrip(Booking booking) {
+        cabLastIdleTime.put(booking.getCabId(), clock.now());
+        this.cityToOnTripCabList.get(booking.getCityId()).remove(booking.getCabId());
+        this.cityToIdleCabList.get(booking.getCityId()).add(booking.getCabId());
     }
 
     public void updateLocation(String cabId, String newLocation) {
@@ -46,15 +44,15 @@ public class CabManager {
         return Duration.between(cabLastIdleTime.get(cabId), clock.now());
     }
 
-    public String book(String city) {
-        if(!this.onboardedCities.contains(city))
+    public Booking book(String cityId) {
+        if(!this.onboardedCities.contains(cityId))
             throw new ServiceUnavailableInTheCityException();
-        if(cityToIdleCabList.get(city).isEmpty())
+        if(cityToIdleCabList.get(cityId).isEmpty())
             throw new CabsNotAvailableException();
-        String cabId = cityToIdleCabList.get(city).removeFirst();
-        cityToIdleCabList.get(city).remove(cabId);
-        cityToOnTripCabList.get(city).add(cabId);
-        return cabId;
+        String cabId = cityToIdleCabList.get(cityId).removeFirst();
+        cityToIdleCabList.get(cityId).remove(cabId);
+        cityToOnTripCabList.get(cityId).add(cabId);
+        return new Booking(cityId, cabId);
     }
 
     public void onboardCity(String city) {
