@@ -5,6 +5,7 @@
    - if a city is onboarded, and cab is registered and ON_TRIP, then book fails with CabNotAvailableException 
    - if a city is onboarded, and cab is registered and IDLE, then booking succeeds.
    - if two cities are onboarded, and cab is registered in city-1, booking  from city-2 fails with CabNotAvailableException
+   - book in city-1, end trip in city-2, book in city-2
    - trying to onboard a city that is already onboarded, fails with CityAlreadyOnboardedException 
 
 2. Change current city (location) of any cab. 
