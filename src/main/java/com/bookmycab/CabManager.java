@@ -61,6 +61,6 @@ public class CabManager {
     }
 
     public void book(String city) {
-
+        throw new ServiceUnavailableInTheCityException();
     }
 }
