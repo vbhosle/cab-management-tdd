@@ -6,9 +6,7 @@ import com.bookmycab.time.Clock;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 public class CabManager {
     private LinkedList<String> idleCabList = new LinkedList<>();
@@ -21,6 +19,7 @@ public class CabManager {
     private final CabAuditor cabAuditor;
 
     private boolean isCityOnboarded = false;
+    private final Set<String> onboardedCities = new HashSet<>();
 
     public CabManager() {
         cabAuditor = new CabAuditor();
@@ -63,12 +62,12 @@ public class CabManager {
     }
 
     public void book(String city) {
-        if(!this.isCityOnboarded)
+        if(!this.onboardedCities.contains(city))
             throw new ServiceUnavailableInTheCityException();
         throw new CabsNotAvailableException();
     }
 
     public void onboardCity(String city) {
-        this.isCityOnboarded = true;
+        this.onboardedCities.add(city);
     }
 }
