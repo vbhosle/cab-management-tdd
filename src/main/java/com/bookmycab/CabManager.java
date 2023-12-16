@@ -64,7 +64,9 @@ public class CabManager {
     public String book(String city) {
         if(!this.onboardedCities.contains(city))
             throw new ServiceUnavailableInTheCityException();
-        throw new CabsNotAvailableException();
+        if(idleCabList.isEmpty())
+            throw new CabsNotAvailableException();
+        return book();
     }
 
     public void onboardCity(String city) {
@@ -72,6 +74,6 @@ public class CabManager {
     }
 
     public void register(String cityId, String cabId) {
-
+        register(cabId);
     }
 }
