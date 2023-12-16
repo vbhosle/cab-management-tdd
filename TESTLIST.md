@@ -1,6 +1,7 @@
 1. Onboard various cities where cab services are provided.
    - if no city is onboarded, then book fails with NoCabServiceInTheCity 
    - if a city is onboarded, and cab is not registered, then book fails with CabNotAvailableException 
+   - two cities onboarded with no cab registered. Booking in two cities fails with CabNotAvailableException. Booking in non-registered city fails with CityNotOnboardedException
    - if a city is onboarded, and cab is registered and ON_TRIP, then book fails with CabNotAvailableException 
    - if a city is onboarded, and cab is registered and IDLE, then booking succeeds. 
    - trying to onboard a city that is already onboarded, fails with CityAlreadyOnboardedException 
