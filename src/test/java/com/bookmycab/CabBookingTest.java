@@ -7,6 +7,11 @@ import static org.junit.Assert.*;
 public class CabBookingTest {
 
     @Test
+    public void whenNoCityOnboardedThenBookingThrowsServiceUnavailableInTheCityException() {
+        assertThrows(ServiceUnavailableInTheCityException.class, () -> new CabManager().book("city-1"));
+    }
+
+    @Test
     public void cabsNotAvailableExceptionWhenNoRegisteredCabs() {
         assertThrows(CabsNotAvailableException.class, () -> new CabManager().book());
     }

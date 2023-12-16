@@ -59,4 +59,8 @@ public class CabManager {
     public Duration getIdleTime(String cabId) {
         return Duration.between(cabLastIdleTime.get(cabId), clock.now());
     }
+
+    public void book(String city) {
+
+    }
 }
