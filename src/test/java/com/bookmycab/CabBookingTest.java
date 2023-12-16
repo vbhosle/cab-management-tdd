@@ -19,6 +19,16 @@ public class CabBookingTest {
     }
 
     @Test
+    public void twoCitiesOnboardedBookingCabInBothCitiesFailsWithCabsNotAvailableExceptionAndFailsInUnknownCityWithServiceNotAvailableInTheCity() {
+        CabManager cabManager = new CabManager();
+        cabManager.onboardCity("city-1");
+        cabManager.onboardCity("city-2");
+        assertThrows(CabsNotAvailableException.class, () -> cabManager.book("city-1"));
+        assertThrows(CabsNotAvailableException.class, () -> cabManager.book("city-2"));
+        assertThrows(ServiceUnavailableInTheCityException.class, () -> cabManager.book("city-3"));
+    }
+
+    @Test
     public void oneCabRegisteredThenThatCabIsBooked() {
         CabManager cabManager = new CabManager();
         cabManager.register("cab-1");
