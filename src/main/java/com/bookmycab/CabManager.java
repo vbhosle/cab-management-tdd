@@ -18,7 +18,6 @@ public class CabManager {
 
     private final CabAuditor cabAuditor;
 
-    private boolean isCityOnboarded = false;
     private final Set<String> onboardedCities = new HashSet<>();
 
     public CabManager() {
