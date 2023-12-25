@@ -1,5 +1,5 @@
 # Empty System and defaults.
-- No city in the system: System with no cities onboarded. Attempt to book cab in any city, fails with CityNotOnboardedException.
+- ~~No city in the system: System with no cities onboarded. Attempt to book cab in any city, fails with CityNotOnboardedException.~~
 - No cab in the city: System with city-1 onboarded. Attempt to book a cab at city-1, fails with CabNotAvailableException.
 - System with city-1 onboarded. Attempt to book a cab at city-1, fails with CabNotAvailableException. Attempt to book a cab in city-2, fails with CityNotOnboardedException.
   - System with city-1, city-2 onboarded. cab-x registered at city-2. Attempt to book a cab in city-1, fails with CabNotAvailableException.
