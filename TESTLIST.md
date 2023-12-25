@@ -1,49 +1,37 @@
-1. Onboard various cities where cab services are provided.
-   - if no city is onboarded, then book fails with NoCabServiceInTheCity 
-   - if a city is onboarded, and cab is not registered, then book fails with CabNotAvailableException 
-   - two cities onboarded with no cab registered. Booking in two cities fails with CabNotAvailableException. Booking in non-registered city fails with CityNotOnboardedException
-   - if a city is onboarded, and cab is registered and ON_TRIP, then book fails with CabNotAvailableException 
-   - if a city is onboarded, and cab is registered and IDLE, then booking succeeds.
-   - if two cities are onboarded, and cab is registered in city-1, booking  from city-2 fails with CabNotAvailableException
-   - book in city-1, end trip in city-2, book in city-2
-   - trying to onboard a city that is already onboarded, fails with CityAlreadyOnboardedException 
+# Empty System and defaults.
+- No city in the system: System with no cities onboarded. Attempt to book cab in any city, fails with CityNotOnboardedException.
+- No cab in the city: System with city-1 onboarded. Attempt to book a cab at city-1, fails with CabNotAvailableException.
+- System with city-1 onboarded. Attempt to book a cab at city-1, fails with CabNotAvailableException. Attempt to book a cab in city-2, fails with CityNotOnboardedException.
+  - System with city-1, city-2 onboarded. cab-x registered at city-2. Attempt to book a cab in city-1, fails with CabNotAvailableException.
+  - [CityNotOnboardedException & CityNotOnboardedException already covered in previous tests. May be needed to remove hardcoded exceptions]
+- Default cab state: System with city-1 onboarded. cab-x registered at city-1. Then cab-x state is IDLE. cab-x location is the city of registration, city-1.
 
-2. Change current city (location) of any cab. 
-   - trying to change city of non-registered cabId fails with CabDoesNotExistException
-   - change in location of cab to the same location of it's current location, doesn't do anything.
-   - change in location while ON_TRIP fails with OperationNotAllowedWhileOnTrip
-   - only cab in system. location changes from texas to newyork. location change is audited. +booking in texas fails. +booking in newyork succeeds.
-   - changing location to non-registered city fails with CityNotOnboardedException
+# Test Fixture: city-1 onboarded. cab-x registered at city-1.
+- ON_TRIP cab cannot be booked: cab-x state is changed to ON_TRIP. Then booking in city-1 fails with CabNotAvailableException.
+- ON_TRIP location is indeterminate: cab-x state is changed to ON_TRIP. Then get location of cab-x returns a constant "INDETERMINATE". 
+- ON_TRIP location is indeterminate, can't be changed: cab-x state is changed to ON_TRIP. Then changing location of cab-x fails with OperationNotAllowedWhileOnTripException.
+- Always capture location along with IDLE state, otherwise how system knows where the cab is available?
+  - city-2 is onboarded. cab-x state is changed to ON_TRIP. Change state of cab-x to IDLE with city-2. Now cab is IDLE in city-2.
+- Cab booking changes state: Attempt to book a cab in city-1. cab-x is booked and its state is ON_TRIP.
+- Booked cab becomes unavailable for next booking: Attempt to book a cab in city-1. cab-x is booked and ON_TRIP. Another attempt to book a cab in city-1, fails with CabNotAvailableException.
+  - [Not required: What happens when the only cab in the city goes to ON_TRIP is already covered in "ON_TRIP cab cannot be booked"]
+- ON_TRIP to IDLE makes cab available for booking: Attempt to book a cab in city-1. cab-x is booked and is ON_TRIP. Change state of the cab to IDLE with location. Attempt to book a cab in city-1, books cab-x.
+- Changing location, makes cab available in another city: city-2 is onboarded. Book cab from city-2 fails with CabNotAvailableException. Change location of the cab to city-2, then book cab from city-2 books cab-x.
+- Attempt to change location to non-onboarded city fails with CityNotOnboardedException.
 
-3. Change state of any cab. For this you will have to define a state machine for the cab ex:
-   - a cab must have at least these two basic states; IDLE and ON_TRIP
-   - default state is IDLE on registration
-   - one change in state of cab post registration has two audit logs. one for registration and one for state change.
-   - changing state from IDLE to IDLE doesn't add any new audit log.
-   - changing state from ON_TRIP to ON_TRIP doesn't add any new audit log.
-   - only cab in system. state ON_TRIP then booking fails. state changes to IDLE then booking succeeds.
+# Keep record of cab history of each cab. (A cab history could just be a record of what all states a cab has gone through)
+## Test Fixture: city-1 onboarded. cab-x registered at city-1.
+- Registration of cab-x at city-1 is recorded in cab history: Cab history of cab-x has one entry with state IDLE and location city-1.
+- Change state in state is recorded in cab history: cab-x state is changed to ON_TRIP. Cab history of cab-x has two entries with state IDLE and location city-1, and state ON_TRIP and location INDETERMINATE.
+- Change location in state is recorded in cab history: cab-x state is changed to ON_TRIP. Change state of cab-x to IDLE with city-1. Cab history of cab-x has three entries with state IDLE and location city-1, state ON_TRIP and location INDETERMINATE, and state IDLE and location city-1.
+- System captures chronology of cab history using timestamp: assert timestamp in above test
 
-4. Book cabs based on their availability at a certain location. In case more than one cab are
-   available , use the following strategy;
-   a. Find out which cab has remained idle the most and assign it.
-   b. In case of clash above, randomly assign any cab
-
-a. Find out which cab has remained idle the most and assign it.
-   - cab state is IDLE post registration.
-   - 1 minute post registration, cab IDLE time is 1 minute.
-   - cab IDLE time increases as time passes. 1 min, 2 min
-   - when cab state is ON_TRIP idle time is 0
-   - when cab state change from ON_TRIP to IDLE. and state change passes 1 minute then cab is IDLE for 1 minute
-   - two cabs in a system in ON_TRIP state. cab-1 goes to IDLE, one minute after that cab-2 goes IDLE. Then cab-1 is the most IDLE cab.
-   - two cabs in a system in ON_TRIP state. both go to IDLE at the same time. Then most IDLE cab is randomly chosen.
-   - three cabs in a system. IDLE for 1,2,3 min. first booking books cab-3, second cab-2, third cab-1
-
-a. Provide insights such as for how much time was a cab idle in a given duration ?
-What insights?
-   - total, average, min, max idle time in given duration
-   - if cab was idle 1,2,3 mins for given hour then total is 6, avarage 2, min 1, max 3
-   - if cab was idle 10 mins for given hour then total, average, min, max is 10
-   - if cab was on trip for given hour then otal, average, min, max idle time is 0
-   - if cab was not registered for given hour, then return no metric
-   - for furture hour, no metric
-
+# Find out which cab has remained idle the most and assign it.
+## Test Fixture: city-1 onboarded. cab-x registered at city-1.
+- track IDLE time of a Cab: cab-x state is changed to ON_TRIP. Change state of cab-x to IDLE with city-1. Now cab is IDLE in city-1. cab-x IDLE time is 0.
+- track IDLE time of a Cab: cab-x state is changed to ON_TRIP. Change state of cab-x to IDLE with city-1. Now cab is IDLE in city-1. cab-x IDLE time is 0. After a minute IDLE time is 1 minute. After two minutes, IDLE time is two minutes.
+- IDLE time of ON_TRIP cab: cab-x state is changed to ON_TRIP. cab-x IDLE time is -1.
+- cab-y registered at city-1. cab-x and cab-y are ON_TRIP. cab-x state is changed to IDLE with city-1. After a minute cab-y state is changed to IDLE with city-1. cab-x IDLE time is 1 minute. cab-y IDLE time is 0.
+  - Extend above test: Booking cab in city-1 books cab-y. 
+- cab-y registered at city-1. cab-x and cab-y are ON_TRIP. both cabs state changed to IDLE with city-1 at the same time. cab-x and cab-y IDLE time is 0.
+  Booking cab in city-1 books cab-x or cab-y randomly. 
