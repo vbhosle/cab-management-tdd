@@ -17,11 +17,24 @@ public class SystemDriver {
         throw new CabNotAvailableException();
     }
 
-    private boolean isCityOnboarded(String city) {
+    boolean isCityOnboarded(String city) {
         return onboardedCities.contains(city);
     }
 
     public void onboardCity(String city) {
         onboardedCities.add(city);
+    }
+
+    public void addCab(String cabId, CabState cabState, String cityId) {
+        onboardCity(cityId);
+        registerCab(cabId, cabState, cityId);
+    }
+
+    private void registerCab(String cabId, CabState cabState, String cityId) {
+
+    }
+
+    public Cab getCab(String cabId) {
+        return new Cab();
     }
 }
