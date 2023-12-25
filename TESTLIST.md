@@ -4,10 +4,19 @@
 - ~~System with city-1 onboarded. Attempt to book a cab at city-1, fails with CabNotAvailableException. Attempt to book a cab in city-2, fails with CityNotOnboardedException.~~
   - ~~System with city-1, city-2 onboarded. cab-x registered at city-2. Attempt to book a cab in city-1, fails with CabNotAvailableException.~~
   - ~~[CityNotOnboardedException & CityNotOnboardedException already covered in previous tests. May be needed to remove hardcoded exceptions]~~
-- Default cab state: System with city-1 onboarded. cab-x registered at city-1. Then cab-x state is IDLE. cab-x location is the city of registration, city-1.
 
+# add cabs, update cab state and location
+- Input <cab-1, IDLE, city-1> added in system. getting cab-1 details returns <cab-1, IDLE, city-1>
+- Input <cab-1, IDLE, city-1> added in system. change current city of cab-1 to city-2. getting cab-1 details returns <cab-1, IDLE, city-2>
+
+# ON_TRIP location is indeterminate
+- Input <cab-1, IDLE, city-1> added in system. change state of cab-1 to ON_TRIP. getting cab-1 details returns <cab-1, ON_TRIP, INDETERMINATE>
+- Input <cab-1, ON_TRIP, city-1> added in system. getting cab-1 details returns <cab-1, ON_TRIP, INDETERMINATE>
+- Input <cab-1, ON_TRIP, city-1> added in system. change current city of cab-1 to city-2 fails with OperationNotAllowedWhileOnTripException.
+- Input <cab-1, ON_TRIP, city-1> added in system. change state of cab-1 to IDLE in city-2. getting cab-1 details returns <cab-1, IDLE, city-2>
+ 
 # Test Fixture: city-1 onboarded. cab-x registered at city-1.
-- ON_TRIP cab cannot be booked: cab-x state is changed to ON_TRIP. Then booking in city-1 fails with CabNotAvailableException.
+- ON_TRIP cab is not available for on the spot booking: cab-x state is changed to ON_TRIP. Then booking in city-1 fails with CabNotAvailableException.
 - ON_TRIP location is indeterminate: cab-x state is changed to ON_TRIP. Then get location of cab-x returns a constant "INDETERMINATE". 
 - ON_TRIP location is indeterminate, can't be changed: cab-x state is changed to ON_TRIP. Then changing location of cab-x fails with OperationNotAllowedWhileOnTripException.
 - Always capture location along with IDLE state, otherwise how system knows where the cab is available?
@@ -34,4 +43,4 @@
 - cab-y registered at city-1. cab-x and cab-y are ON_TRIP. cab-x state is changed to IDLE with city-1. After a minute cab-y state is changed to IDLE with city-1. cab-x IDLE time is 1 minute. cab-y IDLE time is 0.
   - Extend above test: Booking cab in city-1 books cab-y. 
 - cab-y registered at city-1. cab-x and cab-y are ON_TRIP. both cabs state changed to IDLE with city-1 at the same time. cab-x and cab-y IDLE time is 0.
-  Booking cab in city-1 books cab-x or cab-y randomly. 
+  Booking cab in city-1 books cab-x or cab-y randomly.
