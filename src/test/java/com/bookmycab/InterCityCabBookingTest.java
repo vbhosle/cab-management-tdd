@@ -22,4 +22,21 @@ public class InterCityCabBookingTest {
 
         assertThrows(CabNotAvailableException.class, () -> systemDriver.book("city-1"));
     }
+
+    /*
+    System with city-1 onboarded. Attempt to book a cab at city-1, fails with CabNotAvailableException. Attempt to book a cab in city-2, fails with CityNotOnboardedException.
+    Outline:
+
+    onboard city-1
+    assert CabNotAvailableException thrown when book cab at city-1
+    assert CityNotOnboardedException thrown when book cab at city-2
+     */
+    @Test
+    public void withCity1Onboarded_bookCabAtCity1FailsWithCabNotAvailableException_bookCabAtCity2FailsWithCityNotOnboardedException() {
+        SystemDriver systemDriver = new SystemDriver();
+        systemDriver.onboardCity("city-1");
+
+        assertThrows(CabNotAvailableException.class, () -> systemDriver.book("city-1"));
+        assertThrows(CityNotOnboardedException.class, () -> systemDriver.book("city-2"));
+    }
 }
