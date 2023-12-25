@@ -2,10 +2,14 @@ package com.bookmycab;
 
 import com.bookmycab.exception.CabNotAvailableException;
 import com.bookmycab.exception.CityNotOnboardedException;
+import com.sun.glass.ui.Clipboard;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class SystemDriver {
 
-    private boolean isCityOnboarded = false;
+    private final Set<String> onboardedCities = new HashSet<>();
 
     public void book(String city) {
         if(!isCityOnboarded(city))
@@ -14,10 +18,10 @@ public class SystemDriver {
     }
 
     private boolean isCityOnboarded(String city) {
-        return isCityOnboarded;
+        return onboardedCities.contains(city);
     }
 
     public void onboardCity(String city) {
-        isCityOnboarded = true;
+        onboardedCities.add(city);
     }
 }
