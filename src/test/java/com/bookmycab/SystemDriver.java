@@ -6,4 +6,8 @@ public class SystemDriver {
     public void book(String city) {
         throw new CityNotOnboardedException();
     }
+
+    public void onboardCity(String city) {
+
+    }
 }
