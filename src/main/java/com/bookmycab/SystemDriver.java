@@ -2,14 +2,16 @@ package com.bookmycab;
 
 import com.bookmycab.exception.CabNotAvailableException;
 import com.bookmycab.exception.CityNotOnboardedException;
-import com.sun.glass.ui.Clipboard;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class SystemDriver {
 
     private final Set<String> onboardedCities = new HashSet<>();
+    private Map<String, Cab> cabs = new HashMap<>();
 
     public void book(String city) {
         if(!isCityOnboarded(city))
@@ -31,10 +33,10 @@ public class SystemDriver {
     }
 
     private void registerCab(String cabId, CabState cabState, String cityId) {
-
+        cabs.put(cabId, new Cab(cabId, cabState, cityId));
     }
 
     public Cab getCab(String cabId) {
-        return new Cab();
+        return cabs.get(cabId);
     }
 }

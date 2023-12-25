@@ -7,6 +7,7 @@
 
 # add cabs, update cab state and location
 - ~~Input <cab-1, IDLE, city-1> added in system. getting cab-1 details returns <cab-1, IDLE, city-1>~~
+  - Input two cabs <cab-1, IDLE, city-1> and <cab-2, IDLE, city-1> added in system. getting cab-1 details returns <cab-1, IDLE, city-1> and getting cab-2 details returns <cab-2, IDLE, city-1>
 - Input <cab-1, IDLE, city-1> added in system. change current city of cab-1 to city-2. getting cab-1 details returns <cab-1, IDLE, city-2>
 
 # ON_TRIP location is indeterminate

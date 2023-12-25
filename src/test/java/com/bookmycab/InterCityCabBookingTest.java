@@ -39,14 +39,23 @@ public class InterCityCabBookingTest {
     }
 
     @Test
-    public void inputCabDetailIsPersisted() {
+    public void inputTwoCabsAddedInSystem() {
         SystemDriver systemDriver = new SystemDriver();
         systemDriver.addCab("cab-1", IDLE, "city-1");
+        systemDriver.addCab("cab-2", IDLE, "city-2");
+
+        Cab cab1 = systemDriver.getCab("cab-1");
+        Cab cab2 = systemDriver.getCab("cab-2");
 
         assertTrue(systemDriver.isCityOnboarded("city-1"));
+        assertTrue(systemDriver.isCityOnboarded("city-1"));
 
-        Cab cab = systemDriver.getCab("cab-1");
-        assertThat(cab.getState(), is(IDLE));
-        assertThat(cab.getCity(), is("city-1"));
+        assertThat(cab1.getId(), is("cab-1"));
+        assertThat(cab1.getState(), is(IDLE));
+        assertThat(cab1.getCity(), is("city-1"));
+
+        assertThat(cab2.getId(), is("cab-2"));
+        assertThat(cab2.getState(), is(IDLE));
+        assertThat(cab2.getCity(), is("city-2"));
     }
 }
