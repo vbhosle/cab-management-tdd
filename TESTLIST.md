@@ -1,9 +1,9 @@
 # Empty System and defaults.
 - ~~No city in the system: System with no cities onboarded. Attempt to book cab in any city, fails with CityNotOnboardedException.~~
 - ~~No cab in the city: System with city-1 onboarded. Attempt to book a cab at city-1, fails with CabNotAvailableException.~~
-- System with city-1 onboarded. Attempt to book a cab at city-1, fails with CabNotAvailableException. Attempt to book a cab in city-2, fails with CityNotOnboardedException.
-  - System with city-1, city-2 onboarded. cab-x registered at city-2. Attempt to book a cab in city-1, fails with CabNotAvailableException.
-  - [CityNotOnboardedException & CityNotOnboardedException already covered in previous tests. May be needed to remove hardcoded exceptions]
+- ~~System with city-1 onboarded. Attempt to book a cab at city-1, fails with CabNotAvailableException. Attempt to book a cab in city-2, fails with CityNotOnboardedException.~~
+  - ~~System with city-1, city-2 onboarded. cab-x registered at city-2. Attempt to book a cab in city-1, fails with CabNotAvailableException.~~
+  - ~~[CityNotOnboardedException & CityNotOnboardedException already covered in previous tests. May be needed to remove hardcoded exceptions]~~
 - Default cab state: System with city-1 onboarded. cab-x registered at city-1. Then cab-x state is IDLE. cab-x location is the city of registration, city-1.
 
 # Test Fixture: city-1 onboarded. cab-x registered at city-1.

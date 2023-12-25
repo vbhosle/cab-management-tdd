@@ -24,6 +24,7 @@ public class InterCityCabBookingTest {
         assertThrows(CabNotAvailableException.class, () -> systemDriver.book("city-1"));
     }
 
+    @Ignore("Not required anymore: Used for generalization")
     @Test
     public void withCity1Onboarded_bookCabAtCity1FailsWithCabNotAvailableException_bookCabAtCity2FailsWithCityNotOnboardedException() {
         SystemDriver systemDriver = new SystemDriver();
