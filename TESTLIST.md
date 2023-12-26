@@ -7,8 +7,8 @@
 
 # add cabs, update cab state and location
 - ~~Input <cab-1, IDLE, city-1> added in system. getting cab-1 details returns <cab-1, IDLE, city-1>~~
-  - Input two cabs <cab-1, IDLE, city-1> and <cab-2, IDLE, city-1> added in system. getting cab-1 details returns <cab-1, IDLE, city-1> and getting cab-2 details returns <cab-2, IDLE, city-1>
-- Input <cab-1, IDLE, city-1> added in system. change current city of cab-1 to city-2. getting cab-1 details returns <cab-1, IDLE, city-2>
+  - ~~Input two cabs <cab-1, IDLE, city-1> and <cab-2, IDLE, city-1> added in system. getting cab-1 details returns <cab-1, IDLE, city-1> and getting cab-2 details returns <cab-2, IDLE, city-1>~~
+- ~~Input <cab-1, IDLE, city-1> added in system. change current city of cab-1 to city-2. getting cab-1 details returns <cab-1, IDLE, city-2>~~
 
 # ON_TRIP location is indeterminate
 - Input <cab-1, IDLE, city-1> added in system. change state of cab-1 to ON_TRIP. getting cab-1 details returns <cab-1, ON_TRIP, INDETERMINATE>
@@ -45,3 +45,6 @@
   - Extend above test: Booking cab in city-1 books cab-y. 
 - cab-y registered at city-1. cab-x and cab-y are ON_TRIP. both cabs state changed to IDLE with city-1 at the same time. cab-x and cab-y IDLE time is 0.
   Booking cab in city-1 books cab-x or cab-y randomly.
+
+# Refactoring
+- Cab current location and state are variable. They collectively form a state of the cab. So, they should be encapsulated in a class.

@@ -1,13 +1,13 @@
 package com.bookmycab;
 
-public class Cab {
+public class CabSnapshot {
     private final String id;
 
     private final CabState state;
 
     private final String city;
 
-    public Cab(String id, CabState state, String city) {
+    public CabSnapshot(String id, CabState state, String city) {
         this.id = id;
         this.state = state;
         this.city = city;
@@ -23,5 +23,9 @@ public class Cab {
 
     public String getId() {
         return this.id;
+    }
+
+    public CabSnapshot withCurrentCity(String currentCity) {
+        return new CabSnapshot(this.id, this.state, currentCity);
     }
 }

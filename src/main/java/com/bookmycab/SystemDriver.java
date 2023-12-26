@@ -11,7 +11,7 @@ import java.util.Set;
 public class SystemDriver {
 
     private final Set<String> onboardedCities = new HashSet<>();
-    private Map<String, Cab> cabs = new HashMap<>();
+    private Map<String, CabSnapshot> cabs = new HashMap<>();
 
     public void book(String city) {
         if(!isCityOnboarded(city))
@@ -33,10 +33,15 @@ public class SystemDriver {
     }
 
     private void registerCab(String cabId, CabState cabState, String cityId) {
-        cabs.put(cabId, new Cab(cabId, cabState, cityId));
+        cabs.put(cabId, new CabSnapshot(cabId, cabState, cityId));
     }
 
-    public Cab getCab(String cabId) {
+    public CabSnapshot getCab(String cabId) {
         return cabs.get(cabId);
+    }
+
+    public void changeCurrentCityOfCab(String cabId, String currentCity) {
+        CabSnapshot cabSnapshot = cabs.get(cabId);
+        cabs.put(cabId, cabSnapshot.withCurrentCity(currentCity));
     }
 }
