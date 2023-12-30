@@ -16,7 +16,16 @@ public class SystemDriver {
     public void book(String city) {
         if(!isCityOnboarded(city))
             throw new CityNotOnboardedException();
-        throw new CabNotAvailableException();
+        CabSnapshot availableCab = getCabForBooking(city);
+        updateCabToOnTrip(availableCab.getId());
+    }
+
+    private CabSnapshot getCabForBooking(String city) {
+        return cabs.values().stream()
+                .filter(cabSnapshot -> cabSnapshot.getState() == CabState.IDLE)
+                .filter(cabSnapshot -> cabSnapshot.getCity().equals(city))
+                .findFirst()
+                .orElseThrow(CabNotAvailableException::new);
     }
 
     boolean isCityOnboarded(String city) {
