@@ -17,11 +17,12 @@ public class SystemDriver {
         cabManager = new CabManager(new InMemoryCabRepository(), clock);
     }
 
-    public void book(String city) {
+    public CabSnapshot book(String city) {
         if(!isCityOnboarded(city))
             throw new CityNotOnboardedException();
         CabSnapshot availableCab = cabManager.getCabForBooking(new BookingCriteria(city));
         updateCabToOnTrip(availableCab.getId());
+        return availableCab;
     }
 
     boolean isCityOnboarded(String city) {

@@ -4,7 +4,9 @@ import com.bookmycab.exception.CabNotAvailableException;
 import com.bookmycab.repositories.InMemoryCabRepository;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -27,22 +29,25 @@ public class CabManager {
     }
 
     public CabSnapshot getCabForBooking(BookingCriteria bookingCriteria) {
-    return findIdleCabs(
-            cabSnapshot -> cabSnapshot.getCity().equals(bookingCriteria.getCity()),
-            Comparator.comparing(CabSnapshot::getStateChangedAt))
-            .stream()
-            .findFirst()
-            .orElseThrow(CabNotAvailableException::new);
-    }
-
-    public List<CabSnapshot> findIdleCabs(Predicate<CabSnapshot> filterCriteria, Comparator<CabSnapshot> sortingCriteria) {
-        return cabRepository
+        Predicate<CabSnapshot> filterCriteria = cabSnapshot -> cabSnapshot.getCity().equals(bookingCriteria.getCity());
+        Comparator<CabSnapshot> sortingCriteria = Comparator.comparing(CabSnapshot::getStateChangedAt);
+        Function<CabSnapshot, Instant> conflictDetectionKey = CabSnapshot::getStateChangedAt;
+        List<CabSnapshot> filteredList = cabRepository
                 .getAllCabs()
                 .stream()
                 .filter(cabSnapshot -> cabSnapshot.getState() == CabState.IDLE)
                 .filter(filterCriteria)
-                .sorted(sortingCriteria)
                 .collect(Collectors.toList());
+        if (hasConflict(filteredList, conflictDetectionKey))
+            Collections.shuffle(filteredList);
+        return filteredList
+                .stream()
+                .min(sortingCriteria)
+                .orElseThrow(CabNotAvailableException::new);
+    }
+
+    private static <T extends Comparable<T>> boolean hasConflict(List<CabSnapshot> filteredList, Function<CabSnapshot, T> conflictResolutionCriteria) {
+        return filteredList.stream().map(conflictResolutionCriteria).distinct().count() == 1;
     }
 
     public void changeCurrentCityOfCab(String cabId, String currentCity) {

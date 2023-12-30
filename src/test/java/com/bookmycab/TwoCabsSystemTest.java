@@ -10,6 +10,7 @@ import java.time.temporal.ChronoUnit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.mockito.Mockito.doReturn;
 
 public class TwoCabsSystemTest {
@@ -44,6 +45,30 @@ public class TwoCabsSystemTest {
 
         assertThat("blue cab ON_TRIP", cabBlueSnapshot.getState(), equalTo(CabState.ON_TRIP));
         assertThat("red cab IDLE", cabRedSnapshot.getState(), equalTo(CabState.IDLE));
+    }
+
+    @Test
+    public void withTwoCabsWithSameIdleTimeInTheSystemBookAtRandom() {
+        systemDriver.addCab("cab-red", CabState.IDLE, "city-1");
+        systemDriver.addCab("cab-blue", CabState.IDLE, "city-1");
+
+        int redCabCount = 0;
+        int blueCabCount = 0;
+
+        for(int i = 0; i < 100; i++) {
+            CabSnapshot cab = systemDriver.book("city-1");
+            if(cab.getId().equals("cab-red")) redCabCount++;
+            else blueCabCount++;
+            systemDriver.updateCabToIdle("cab-red", "city-1");
+            systemDriver.updateCabToIdle("cab-blue", "city-1");
+        }
+
+        int totalCount = redCabCount + blueCabCount;
+        int expectedRedCabCount = (int) (totalCount * 0.5); // 50% of the total count
+        int tolerance = (int) (totalCount * 0.1); // 10% of the total count
+
+        // Assert that the counts are within the tolerance
+        assertThat("Red cab count is not within the tolerance", Math.abs(redCabCount - expectedRedCabCount), lessThanOrEqualTo(tolerance));
     }
 
     public void progressTimeByAMinute() {
