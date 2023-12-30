@@ -3,6 +3,7 @@ package com.bookmycab;
 import com.bookmycab.exception.CabNotAvailableException;
 
 import java.time.Duration;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +27,7 @@ public class CabManager {
         return cabs.values().stream()
                 .filter(cabSnapshot -> cabSnapshot.getState() == CabState.IDLE)
                 .filter(cabSnapshot -> cabSnapshot.getCity().equals(city))
-                .findFirst()
+                .max((cab1, cab2) -> getCabIdleTime(cab1.getId()).compareTo(getCabIdleTime(cab2.getId())))
                 .orElseThrow(CabNotAvailableException::new);
     }
 
