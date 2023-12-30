@@ -3,7 +3,6 @@ package com.bookmycab;
 import com.bookmycab.exception.OperationNotAllowedWhileOnTripException;
 
 import java.time.Instant;
-import java.time.temporal.Temporal;
 
 public class CabSnapshot {
     private final String id;
@@ -51,16 +50,8 @@ public class CabSnapshot {
         return new CabSnapshot(this.id, this.state, currentCity, this.stateChangedAt);
     }
 
-    public CabSnapshot onTrip() {
-        return new CabSnapshot(this.id, CabState.ON_TRIP, CabConstants.INDETERMINATE);
-    }
-
     public CabSnapshot onTrip(Instant stateChangedAt) {
         return new CabSnapshot(this.id, CabState.ON_TRIP, CabConstants.INDETERMINATE, stateChangedAt);
-    }
-
-    public CabSnapshot toIdle(String currentCityId) {
-        return new CabSnapshot(this.id, CabState.IDLE, currentCityId);
     }
 
     public CabSnapshot toIdle(String currentCityId, Instant stateChangedAt) {
