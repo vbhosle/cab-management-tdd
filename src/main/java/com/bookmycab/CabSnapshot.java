@@ -1,5 +1,7 @@
 package com.bookmycab;
 
+import com.bookmycab.exception.OperationNotAllowedWhileOnTripException;
+
 public class CabSnapshot {
     private final String id;
 

@@ -48,3 +48,4 @@
 
 # Refactoring
 - Cab current location and state are variable. They collectively form a state of the cab. So, they should be encapsulated in a class.
+- Move cab state and location change into another class.

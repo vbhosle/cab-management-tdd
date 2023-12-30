@@ -2,6 +2,7 @@ package com.bookmycab;
 
 import com.bookmycab.exception.CabNotAvailableException;
 import com.bookmycab.exception.CityNotOnboardedException;
+import com.bookmycab.exception.OperationNotAllowedWhileOnTripException;
 import org.junit.Test;
 
 import static com.bookmycab.CabState.IDLE;
