@@ -17,14 +17,6 @@
 - ~~Input <cab-1, ON_TRIP, city-1> added in system. change state of cab-1 to IDLE in city-2. getting cab-1 details returns <cab-1, IDLE, city-2>~~
  
 # Test Fixture: city-1 onboarded. cab-x registered at city-1.
-- ON_TRIP cab is not available for on the spot booking: cab-x state is changed to ON_TRIP. Then booking in city-1 fails with CabNotAvailableException.
-- Cab booking changes state: Attempt to book a cab in city-1. cab-x is booked and its state is ON_TRIP.
-- Booked cab becomes unavailable for next booking: Attempt to book a cab in city-1. cab-x is booked and ON_TRIP. Another attempt to book a cab in city-1, fails with CabNotAvailableException.
-  - [Not required: What happens when the only cab in the city goes to ON_TRIP is already covered in "ON_TRIP cab cannot be booked"]
-- ON_TRIP to IDLE makes cab available for booking: Attempt to book a cab in city-1. cab-x is booked and is ON_TRIP. Change state of the cab to IDLE with location. Attempt to book a cab in city-1, books cab-x.
-- Changing location, makes cab available in another city: city-2 is onboarded. Book cab from city-2 fails with CabNotAvailableException. Change location of the cab to city-2, then book cab from city-2 books cab-x.
-- Attempt to change location to non-onboarded city fails with CityNotOnboardedException.
-
 - ~~IDLE cab added to city-1. Booking succeeds and cab state changes to ON_TRIP.~~
 - ~~ON_TRIP cab added to city-1. Booking fails with CabNotAvailableException.~~
 - ~~Change ON_TRIP cab to IDLE. Booking succeeds and cab state changes to ON_TRIP.~~
@@ -47,6 +39,9 @@
   - Extend above test: Booking cab in city-1 books cab-y. 
 - cab-y registered at city-1. cab-x and cab-y are ON_TRIP. both cabs state changed to IDLE with city-1 at the same time. cab-x and cab-y IDLE time is 0.
   Booking cab in city-1 books cab-x or cab-y randomly.
+
+# validation
+- changing city to city not onboarded fails with CityNotOnboardedException
 
 # Refactoring
 - Cab current location and state are variable. They collectively form a state of the cab. So, they should be encapsulated in a class.
