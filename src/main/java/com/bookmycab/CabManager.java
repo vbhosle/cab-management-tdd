@@ -46,6 +46,8 @@ public class CabManager {
     }
 
     public Duration getCabIdleTime(String cabId) {
-        return Duration.between(cabs.get(cabId).getStateChangedAt(), clock.now());
+        if(cabs.get(cabId).getState() == CabState.IDLE)
+            return Duration.between(cabs.get(cabId).getStateChangedAt(), clock.now());
+        return Duration.ZERO;
     }
 }
