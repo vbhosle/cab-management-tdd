@@ -3,9 +3,9 @@ package com.bookmycab;
 import com.bookmycab.exception.CabNotAvailableException;
 
 import java.time.Duration;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class CabManager {
     private final Map<String, CabSnapshot> cabs = new HashMap<>();
@@ -28,11 +28,19 @@ public class CabManager {
     }
 
     public CabSnapshot getCabForBooking(BookingCriteria bookingCriteria) {
-        return getAllCabs().stream()
-                .filter(cabSnapshot -> cabSnapshot.getState() == CabState.IDLE)
-                .filter(cabSnapshot -> cabSnapshot.getCity().equals(bookingCriteria.getCity()))
-                .max((cab1, cab2) -> getCabIdleTime(cab1.getId()).compareTo(getCabIdleTime(cab2.getId())))
+        return findIdleCabs(cabSnapshot -> cabSnapshot.getCity().equals(bookingCriteria.getCity()),
+                Comparator.comparing(CabSnapshot::getStateChangedAt))
+                .stream()
+                .findFirst()
                 .orElseThrow(CabNotAvailableException::new);
+    }
+
+    public List<CabSnapshot> findIdleCabs(Predicate<CabSnapshot> filterCriteria, Comparator<CabSnapshot> sortingCriteria) {
+        return getAllCabs().stream()
+            .filter(cabSnapshot -> cabSnapshot.getState() == CabState.IDLE)
+            .filter(filterCriteria)
+            .sorted(sortingCriteria)
+            .collect(Collectors.toList());
     }
 
     private Collection<CabSnapshot> getAllCabs() {
