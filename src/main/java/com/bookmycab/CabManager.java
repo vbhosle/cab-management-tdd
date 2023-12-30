@@ -28,11 +28,12 @@ public class CabManager {
     }
 
     public CabSnapshot getCabForBooking(BookingCriteria bookingCriteria) {
-        return findIdleCabs(cabSnapshot -> cabSnapshot.getCity().equals(bookingCriteria.getCity()),
-                Comparator.comparing(CabSnapshot::getStateChangedAt))
-                .stream()
-                .findFirst()
-                .orElseThrow(CabNotAvailableException::new);
+    return findIdleCabs(
+            cabSnapshot -> cabSnapshot.getCity().equals(bookingCriteria.getCity()),
+            Comparator.comparing(CabSnapshot::getStateChangedAt))
+        .stream()
+        .findFirst()
+        .orElseThrow(CabNotAvailableException::new);
     }
 
     public List<CabSnapshot> findIdleCabs(Predicate<CabSnapshot> filterCriteria, Comparator<CabSnapshot> sortingCriteria) {
