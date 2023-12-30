@@ -39,7 +39,7 @@ public class IdleTimeTrackingTest {
     }
 
     @Test
-    public void onTripCabIdleTimeTrackingTest() {
+    public void onTripCabIdleTimeIsAlwaysZero() {
         systemDriver.addCab("cab-1", ON_TRIP, "city-1");
 
         assertThat(systemDriver.getCabIdleTime("cab-1"), equalTo(Duration.ZERO));
@@ -48,7 +48,40 @@ public class IdleTimeTrackingTest {
         assertThat(systemDriver.getCabIdleTime("cab-1"), equalTo(Duration.ZERO));
     }
 
+    @Test
+    public void changeIdleCabToOnTrip() {
+        systemDriver.addCab("cab-1", IDLE, "city-1");
+
+        progressTimeByAMinute();
+        systemDriver.updateCabToOnTrip("cab-1");
+        assertThat(systemDriver.getCabIdleTime("cab-1"), equalTo(Duration.ZERO));
+
+        progressTimeByAMinute();
+        assertThat(systemDriver.getCabIdleTime("cab-1"), equalTo(Duration.ZERO));
+    }
+
+    @Test
+    public void changeOnTripCabToIdle() {
+        systemDriver.addCab("cab-1", ON_TRIP, "city-1");
+        progressTimeByAMinute();
+        systemDriver.updateCabToIdle("cab-1", "city-1");
+        progressTimeByAMinute();
+
+        assertThat(systemDriver.getCabIdleTime("cab-1"), equalTo(Duration.of(1, ChronoUnit.MINUTES)));
+    }
+
+    @Test
+    public void changeIdleCabCityDoesNotResetIdleTime() {
+        systemDriver.addCab("cab-1", IDLE, "city-1");
+        progressTimeByAMinute();
+        systemDriver.changeCurrentCityOfCab("cab-1", "city-2");
+        progressTimeByAMinute();
+
+        assertThat(systemDriver.getCabIdleTime("cab-1"), equalTo(Duration.of(2, ChronoUnit.MINUTES)));
+    }
+
     public void progressTimeByAMinute() {
-        doReturn(now.plus(1, ChronoUnit.MINUTES)).when(clock).now();
+        now = now.plus(1, ChronoUnit.MINUTES);
+        doReturn(now).when(clock).now();
     }
 }

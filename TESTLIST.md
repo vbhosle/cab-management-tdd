@@ -34,9 +34,9 @@
 ## Test Fixture: city-1 onboarded. cab-x registered at city-1.
 - ~~IDLE cab added to city-1. Immediately on adding idle time is 0, after 1 minute idle time is 1 minute.~~
 - ~~ON_TRIP cab added to city-1. Immediately on adding idle tiem is 0, after 1 minute idle time is 0.~~
-- track IDLE time of a Cab: cab-x state is changed to ON_TRIP. Change state of cab-x to IDLE with city-1. Now cab is IDLE in city-1. cab-x IDLE time is 0.
-- track IDLE time of a Cab: cab-x state is changed to ON_TRIP. Change state of cab-x to IDLE with city-1. Now cab is IDLE in city-1. cab-x IDLE time is 0. After a minute IDLE time is 1 minute. After two minutes, IDLE time is two minutes.
-- IDLE time of ON_TRIP cab: cab-x state is changed to ON_TRIP. cab-x IDLE time is -1.
+- ~~Changing from IDLE to ON_TRIP resets idle time to 0: cab-x is IDLE since 1 minute. State is changed to ON_TRIP. cab-x IDLE time is 0. after 1 minute cab-x IDLE time is 0.~~
+- ~~Changing from ON_TRIP to IDLE starts tracking idle time: cab-x is ON_TRIP. State is changed to IDLE. cab-x IDLE time is 0. after 1 minute cab-x IDLE time is 1.~~
+- ~~Changing city of IDLE cab does not reset idle time: cab-x is IDLE since 1 minute. Change state of cab-x to IDLE with city-2. cab-x IDLE time is 1 minute. after 1 minute cab-x IDLE time is 2 minute.~~
 - cab-y registered at city-1. cab-x and cab-y are ON_TRIP. cab-x state is changed to IDLE with city-1. After a minute cab-y state is changed to IDLE with city-1. cab-x IDLE time is 1 minute. cab-y IDLE time is 0.
   - Extend above test: Booking cab in city-1 books cab-y. 
 - cab-y registered at city-1. cab-x and cab-y are ON_TRIP. both cabs state changed to IDLE with city-1 at the same time. cab-x and cab-y IDLE time is 0.
