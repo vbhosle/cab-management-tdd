@@ -25,11 +25,11 @@
 - Changing location, makes cab available in another city: city-2 is onboarded. Book cab from city-2 fails with CabNotAvailableException. Change location of the cab to city-2, then book cab from city-2 books cab-x.
 - Attempt to change location to non-onboarded city fails with CityNotOnboardedException.
 
-- IDLE cab added to city-1. Booking succeeds and cab state changes to ON_TRIP.
+- ~~IDLE cab added to city-1. Booking succeeds and cab state changes to ON_TRIP.~~
 - ~~ON_TRIP cab added to city-1. Booking fails with CabNotAvailableException.~~
 - Change ON_TRIP cab to IDLE. Booking succeeds and cab state changes to ON_TRIP.
 - Change IDLE cab to ON_TRIP. Booking fails with CabNotAvailableException.
-- Change IDLE cab location to city-2. Booking for city-1 fails with CabNotAvailableException.
+- ~~Change IDLE cab location to city-2. Booking for city-1 fails with CabNotAvailableException.~~
 
 # Keep record of cab history of each cab. (A cab history could just be a record of what all states a cab has gone through)
 ## Test Fixture: city-1 onboarded. cab-x registered at city-1.

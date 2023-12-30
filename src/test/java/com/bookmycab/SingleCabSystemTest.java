@@ -30,4 +30,11 @@ public class SingleCabSystemTest {
         CabSnapshot cab1Snapshot = systemDriver.getCab("cab-1");
         assertThat(cab1Snapshot.getState(), equalTo(CabState.ON_TRIP));
     }
+
+    @Test
+    public void changeIdleCabLocationFromCity1ToCity2BookingForCity1Fails() {
+        systemDriver.addCab("cab-1", CabState.IDLE, "city-1");
+        systemDriver.changeCurrentCityOfCab("cab-1", "city-2");
+        assertThrows(CabNotAvailableException.class, () -> systemDriver.book("city-1"));
+    }
 }
