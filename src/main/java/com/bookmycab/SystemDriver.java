@@ -49,4 +49,9 @@ public class SystemDriver {
         CabSnapshot cabSnapshot = cabs.get(cabId);
         cabs.put(cabId, cabSnapshot.onTrip());
     }
+
+    public void updateCabToIdle(String cabId, String currentCityId) {
+        CabSnapshot cabSnapshot = cabs.get(cabId);
+        cabs.put(cabId, cabSnapshot.toIdle(currentCityId));
+    }
 }

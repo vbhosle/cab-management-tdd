@@ -37,4 +37,8 @@ public class CabSnapshot {
     public CabSnapshot onTrip() {
         return new CabSnapshot(this.id, CabState.ON_TRIP, CabConstants.INDETERMINATE);
     }
+
+    public CabSnapshot toIdle(String currentCityId) {
+        return new CabSnapshot(this.id, CabState.IDLE, currentCityId);
+    }
 }

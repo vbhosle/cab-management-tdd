@@ -92,4 +92,17 @@ public class InterCityCabBookingTest {
 
         assertThrows(OperationNotAllowedWhileOnTripException.class, () -> systemDriver.changeCurrentCityOfCab("cab-1", "city-2"));
     }
+
+    @Test
+    public void onTripCabGoesToIdleWithCity() {
+        SystemDriver systemDriver = new SystemDriver();
+        systemDriver.addCab("cab-1", CabState.ON_TRIP, "city-1");
+
+        systemDriver.updateCabToIdle("cab-1", "city-2");
+        CabSnapshot cab1Snapshot2 = systemDriver.getCab("cab-1");
+
+        assertThat(cab1Snapshot2.getId(), is("cab-1"));
+        assertThat(cab1Snapshot2.getState(), is(IDLE));
+        assertThat(cab1Snapshot2.getCity(), is("city-2"));
+    }
 }
