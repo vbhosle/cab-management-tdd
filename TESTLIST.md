@@ -27,8 +27,8 @@
 
 - ~~IDLE cab added to city-1. Booking succeeds and cab state changes to ON_TRIP.~~
 - ~~ON_TRIP cab added to city-1. Booking fails with CabNotAvailableException.~~
-- Change ON_TRIP cab to IDLE. Booking succeeds and cab state changes to ON_TRIP.
-- Change IDLE cab to ON_TRIP. Booking fails with CabNotAvailableException.
+- ~~Change ON_TRIP cab to IDLE. Booking succeeds and cab state changes to ON_TRIP.~~
+- ~~Change IDLE cab to ON_TRIP. Booking fails with CabNotAvailableException.~~
 - ~~Change IDLE cab location to city-2. Booking for city-1 fails with CabNotAvailableException.~~
 
 # Keep record of cab history of each cab. (A cab history could just be a record of what all states a cab has gone through)
