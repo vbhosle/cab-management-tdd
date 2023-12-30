@@ -14,7 +14,7 @@ public class CabSnapshotTest {
         CabSnapshot cabSnapshot2 = cabSnapshot1.withCurrentCity("city-2");
 
         assertNotSame(cabSnapshot1, cabSnapshot2);
-        assertThat(cabSnapshot2.getId(), is(cabSnapshot1.getCity()));
+        assertThat(cabSnapshot2.getId(), is(cabSnapshot1.getId()));
         assertThat(cabSnapshot2.getState(), is(cabSnapshot1.getState()));
         assertThat(cabSnapshot2.getCity(), is("city-2"));
     }

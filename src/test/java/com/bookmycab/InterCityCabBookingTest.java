@@ -59,4 +59,29 @@ public class InterCityCabBookingTest {
         assertThat(cab1Snapshot2.getState(), is(IDLE));
         assertThat(cab1Snapshot2.getCity(), is("city-2"));
     }
+
+    @Test
+    public void addOnTripCab() {
+        SystemDriver systemDriver = new SystemDriver();
+        systemDriver.addCab("cab-1", CabState.ON_TRIP, "city-1");
+
+        CabSnapshot cab1Snapshot = systemDriver.getCab("cab-1");
+
+        assertThat(cab1Snapshot.getId(), is("cab-1"));
+        assertThat(cab1Snapshot.getState(), is(CabState.ON_TRIP));
+        assertThat(cab1Snapshot.getCity(), is(CabConstants.INDETERMINATE));
+    }
+
+    @Test
+    public void addIdleCabAndChangeStateToOnTrip() {
+        SystemDriver systemDriver = new SystemDriver();
+        systemDriver.addCab("cab-1", IDLE, "city-1");
+
+        systemDriver.updateCabToOnTrip("cab-1");
+        CabSnapshot cab1Snapshot2 = systemDriver.getCab("cab-1");
+
+        assertThat(cab1Snapshot2.getId(), is("cab-1"));
+        assertThat(cab1Snapshot2.getState(), is(CabState.ON_TRIP));
+        assertThat(cab1Snapshot2.getCity(), is(CabConstants.INDETERMINATE));
+    }
 }

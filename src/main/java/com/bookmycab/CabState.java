@@ -1,5 +1,5 @@
 package com.bookmycab;
 
 public enum CabState {
-    IDLE
+    ON_TRIP, IDLE
 }

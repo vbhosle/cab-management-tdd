@@ -10,7 +10,10 @@ public class CabSnapshot {
     public CabSnapshot(String id, CabState state, String city) {
         this.id = id;
         this.state = state;
-        this.city = city;
+        if(state == CabState.ON_TRIP)
+            this.city = "INDETERMINATE";
+        else
+            this.city = city;
     }
 
     public CabState getState() {
@@ -27,5 +30,9 @@ public class CabSnapshot {
 
     public CabSnapshot withCurrentCity(String currentCity) {
         return new CabSnapshot(this.id, this.state, currentCity);
+    }
+
+    public CabSnapshot onTrip() {
+        return new CabSnapshot(this.id, CabState.ON_TRIP, CabConstants.INDETERMINATE);
     }
 }

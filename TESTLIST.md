@@ -11,8 +11,8 @@
 - ~~Input <cab-1, IDLE, city-1> added in system. change current city of cab-1 to city-2. getting cab-1 details returns <cab-1, IDLE, city-2>~~
 
 # ON_TRIP location is indeterminate
-- Input <cab-1, IDLE, city-1> added in system. change state of cab-1 to ON_TRIP. getting cab-1 details returns <cab-1, ON_TRIP, INDETERMINATE>
-- Input <cab-1, ON_TRIP, city-1> added in system. getting cab-1 details returns <cab-1, ON_TRIP, INDETERMINATE>
+- ~~Input <cab-1, IDLE, city-1> added in system. change state of cab-1 to ON_TRIP. getting cab-1 details returns <cab-1, ON_TRIP, INDETERMINATE>~~
+- ~~Input <cab-1, ON_TRIP, city-1> added in system. getting cab-1 details returns <cab-1, ON_TRIP, INDETERMINATE>~~
 - Input <cab-1, ON_TRIP, city-1> added in system. change current city of cab-1 to city-2 fails with OperationNotAllowedWhileOnTripException.
 - Input <cab-1, ON_TRIP, city-1> added in system. change state of cab-1 to IDLE in city-2. getting cab-1 details returns <cab-1, IDLE, city-2>
  

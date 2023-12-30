@@ -44,4 +44,9 @@ public class SystemDriver {
         CabSnapshot cabSnapshot = cabs.get(cabId);
         cabs.put(cabId, cabSnapshot.withCurrentCity(currentCity));
     }
+
+    public void updateCabToOnTrip(String cabId) {
+        CabSnapshot cabSnapshot = cabs.get(cabId);
+        cabs.put(cabId, cabSnapshot.onTrip());
+    }
 }
