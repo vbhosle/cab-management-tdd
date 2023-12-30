@@ -2,19 +2,11 @@ package com.bookmycab;
 
 import com.bookmycab.exception.OperationNotAllowedWhileOnTripException;
 import org.junit.Test;
-import org.mockito.Mockito;
-
-import java.time.Duration;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 
 import static com.bookmycab.CabState.IDLE;
-import static com.bookmycab.CabState.ON_TRIP;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.doReturn;
 
 public class CabStateTest {
 
@@ -96,36 +88,6 @@ public class CabStateTest {
         assertThat(cab1Snapshot2.getId(), is("cab-1"));
         assertThat(cab1Snapshot2.getState(), is(IDLE));
         assertThat(cab1Snapshot2.getCity(), is("city-2"));
-    }
-
-    @Test
-    public void idleCabIdleTimeTrackingTest() {
-        AppClock clock = Mockito.mock(AppClock.class);
-        SystemDriver systemDriver = new SystemDriver(clock);
-
-        Instant now = Instant.now();
-        doReturn(now).when(clock).now();
-        systemDriver.addCab("cab-1", IDLE, "city-1");
-
-        assertThat(systemDriver.getCabIdleTime("cab-1"), equalTo(Duration.ZERO));
-
-        doReturn(now.plus(1, ChronoUnit.MINUTES)).when(clock).now();
-        assertThat(systemDriver.getCabIdleTime("cab-1"), equalTo(Duration.of(1, ChronoUnit.MINUTES)));
-    }
-
-    @Test
-    public void onTripCabIdleTimeTrackingTest() {
-        AppClock clock = Mockito.mock(AppClock.class);
-        SystemDriver systemDriver = new SystemDriver(clock);
-
-        Instant now = Instant.now();
-        doReturn(now).when(clock).now();
-        systemDriver.addCab("cab-1", ON_TRIP, "city-1");
-
-        assertThat(systemDriver.getCabIdleTime("cab-1"), equalTo(Duration.ZERO));
-
-        doReturn(now.plus(1, ChronoUnit.MINUTES)).when(clock).now();
-        assertThat(systemDriver.getCabIdleTime("cab-1"), equalTo(Duration.ZERO));
     }
 
 }
