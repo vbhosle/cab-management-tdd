@@ -2,6 +2,7 @@ package com.bookmycab.repositories;
 
 import com.bookmycab.CabSnapshot;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +24,6 @@ public class InMemoryCabRepository implements CabRepository {
 
   @Override
   public Collection<CabSnapshot> getAllCabs() {
-    return cabs.values();
+    return new ArrayList<>(cabs.values());
   }
 }
