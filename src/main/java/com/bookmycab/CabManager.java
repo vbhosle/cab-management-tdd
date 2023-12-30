@@ -2,14 +2,20 @@ package com.bookmycab;
 
 import com.bookmycab.exception.CabNotAvailableException;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
 public class CabManager {
     private final Map<String, CabSnapshot> cabs = new HashMap<>();
+    private final AppClock clock;
+
+    public CabManager(AppClock clock) {
+        this.clock = clock;
+    }
 
     public void registerCab(String cabId, CabState cabState, String cityId) {
-        cabs.put(cabId, new CabSnapshot(cabId, cabState, cityId));
+        cabs.put(cabId, new CabSnapshot(cabId, cabState, cityId, clock.now()));
     }
 
     public CabSnapshot getCab(String cabId) {
@@ -31,11 +37,15 @@ public class CabManager {
 
     public void updateCabToOnTrip(String cabId) {
         CabSnapshot cabSnapshot = cabs.get(cabId);
-        cabs.put(cabId, cabSnapshot.onTrip());
+        cabs.put(cabId, cabSnapshot.onTrip(clock.now()));
     }
 
     public void updateCabToIdle(String cabId, String currentCityId) {
         CabSnapshot cabSnapshot = cabs.get(cabId);
-        cabs.put(cabId, cabSnapshot.toIdle(currentCityId));
+        cabs.put(cabId, cabSnapshot.toIdle(currentCityId, clock.now()));
+    }
+
+    public Duration getCabIdleTime(String cabId) {
+        return Duration.between(cabs.get(cabId).getStateChangedAt(), clock.now());
     }
 }

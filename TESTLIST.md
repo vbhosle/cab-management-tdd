@@ -32,6 +32,8 @@
 
 # Find out which cab has remained idle the most and assign it.
 ## Test Fixture: city-1 onboarded. cab-x registered at city-1.
+- ~~IDLE cab added to city-1. Immediately on adding idle time is 0, after 1 minute idle time is 1 minute.~~
+- ~~ON_TRIP cab added to city-1. Immediately on adding idle tiem is 0, after 1 minute idle time is 0.~~
 - track IDLE time of a Cab: cab-x state is changed to ON_TRIP. Change state of cab-x to IDLE with city-1. Now cab is IDLE in city-1. cab-x IDLE time is 0.
 - track IDLE time of a Cab: cab-x state is changed to ON_TRIP. Change state of cab-x to IDLE with city-1. Now cab is IDLE in city-1. cab-x IDLE time is 0. After a minute IDLE time is 1 minute. After two minutes, IDLE time is two minutes.
 - IDLE time of ON_TRIP cab: cab-x state is changed to ON_TRIP. cab-x IDLE time is -1.

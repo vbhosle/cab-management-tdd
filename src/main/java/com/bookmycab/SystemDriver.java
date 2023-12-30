@@ -2,6 +2,7 @@ package com.bookmycab;
 
 import com.bookmycab.exception.CityNotOnboardedException;
 
+import java.time.Duration;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,7 +10,11 @@ public class SystemDriver {
 
     private final Set<String> onboardedCities = new HashSet<>();
 
-    private final CabManager cabManager = new CabManager();
+    private final CabManager cabManager;
+
+    public SystemDriver(AppClock clock) {
+        cabManager = new CabManager(clock);
+    }
 
     public void book(String city) {
         if(!isCityOnboarded(city))
@@ -45,5 +50,9 @@ public class SystemDriver {
 
     public void updateCabToIdle(String cabId, String currentCityId) {
         cabManager.updateCabToIdle(cabId, currentCityId);
+    }
+
+    public Duration getCabIdleTime(String cabId) {
+        return cabManager.getCabIdleTime(cabId);
     }
 }

@@ -13,7 +13,7 @@ public class SingleCabSystemTest {
 
     @Before
     public void setUp() {
-        systemDriver = new SystemDriver();
+        systemDriver = new SystemDriver(new AppClock());
         systemDriver.onboardCity("city-1");
     }
 
