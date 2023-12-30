@@ -29,6 +29,8 @@ public class CabSnapshot {
     }
 
     public CabSnapshot withCurrentCity(String currentCity) {
+        if(this.state == CabState.ON_TRIP)
+            throw new OperationNotAllowedWhileOnTripException("Changing city not allowed");
         return new CabSnapshot(this.id, this.state, currentCity);
     }
 

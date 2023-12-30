@@ -84,4 +84,12 @@ public class InterCityCabBookingTest {
         assertThat(cab1Snapshot2.getState(), is(CabState.ON_TRIP));
         assertThat(cab1Snapshot2.getCity(), is(CabConstants.INDETERMINATE));
     }
+
+    @Test
+    public void changeCurrentCityOfOnTripCab() {
+        SystemDriver systemDriver = new SystemDriver();
+        systemDriver.addCab("cab-1", CabState.ON_TRIP, "city-1");
+
+        assertThrows(OperationNotAllowedWhileOnTripException.class, () -> systemDriver.changeCurrentCityOfCab("cab-1", "city-2"));
+    }
 }
