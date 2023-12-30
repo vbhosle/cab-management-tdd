@@ -38,8 +38,11 @@
 - ~~Changing from ON_TRIP to IDLE starts tracking idle time: cab-x is ON_TRIP. State is changed to IDLE. cab-x IDLE time is 0. after 1 minute cab-x IDLE time is 1.~~
 - ~~Changing city of IDLE cab does not reset idle time: cab-x is IDLE since 1 minute. Change state of cab-x to IDLE with city-2. cab-x IDLE time is 1 minute. after 1 minute cab-x IDLE time is 2 minute.~~
 - ~~Book most idle cab among two~~
-- cab-y registered at city-1. cab-x and cab-y are ON_TRIP. both cabs state changed to IDLE with city-1 at the same time. cab-x and cab-y IDLE time is 0.
-  Booking cab in city-1 books cab-x or cab-y randomly.
+- When two cabs have same idle time, book one randomly.
+- Book least idle cab among two.
+- When two cabs have same idle time, book one with least number of trips in last 24 hours.
+- Book a most idle cab with given rating. (rating is a number between 1 and 5)
+- Book a most idle cab with given rating and model. (model is a string)
 
 # validation
 - changing city to city not onboarded fails with CityNotOnboardedException

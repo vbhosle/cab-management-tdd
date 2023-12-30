@@ -19,7 +19,7 @@ public class SystemDriver {
     public void book(String city) {
         if(!isCityOnboarded(city))
             throw new CityNotOnboardedException();
-        CabSnapshot availableCab = cabManager.getCabForBooking(city);
+        CabSnapshot availableCab = cabManager.getCabForBooking(new BookingCriteria(city));
         updateCabToOnTrip(availableCab.getId());
     }
 

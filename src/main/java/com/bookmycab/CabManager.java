@@ -23,10 +23,10 @@ public class CabManager {
         return cabs.get(cabId);
     }
 
-    public CabSnapshot getCabForBooking(String city) {
+    public CabSnapshot getCabForBooking(BookingCriteria bookingCriteria) {
         return cabs.values().stream()
                 .filter(cabSnapshot -> cabSnapshot.getState() == CabState.IDLE)
-                .filter(cabSnapshot -> cabSnapshot.getCity().equals(city))
+                .filter(cabSnapshot -> cabSnapshot.getCity().equals(bookingCriteria.getCity()))
                 .max((cab1, cab2) -> getCabIdleTime(cab1.getId()).compareTo(getCabIdleTime(cab2.getId())))
                 .orElseThrow(CabNotAvailableException::new);
     }
