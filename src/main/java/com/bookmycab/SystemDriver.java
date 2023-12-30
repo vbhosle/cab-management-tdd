@@ -1,6 +1,7 @@
 package com.bookmycab;
 
 import com.bookmycab.exception.CityNotOnboardedException;
+import com.bookmycab.repositories.InMemoryCabRepository;
 
 import java.time.Duration;
 import java.util.HashSet;
@@ -13,7 +14,7 @@ public class SystemDriver {
     private final CabManager cabManager;
 
     public SystemDriver(AppClock clock) {
-        cabManager = new CabManager(clock);
+        cabManager = new CabManager(new InMemoryCabRepository(), clock);
     }
 
     public void book(String city) {
