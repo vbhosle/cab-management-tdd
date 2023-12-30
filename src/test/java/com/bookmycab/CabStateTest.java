@@ -1,7 +1,5 @@
 package com.bookmycab;
 
-import com.bookmycab.exception.CabNotAvailableException;
-import com.bookmycab.exception.CityNotOnboardedException;
 import com.bookmycab.exception.OperationNotAllowedWhileOnTripException;
 import org.junit.Test;
 
@@ -10,22 +8,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
-public class InterCityCabBookingTest {
-
-    @Test
-    public void bookCabWhenNoCityInSystem() {
-        SystemDriver systemDriver = new SystemDriver();
-
-        assertThrows(CityNotOnboardedException.class, () -> systemDriver.book("any-city"));
-    }
-
-    @Test
-    public void bookCabWhenNoCabAddedToTheCity() {
-        SystemDriver systemDriver = new SystemDriver();
-        systemDriver.onboardCity("city-1");
-
-        assertThrows(CabNotAvailableException.class, () -> systemDriver.book("city-1"));
-    }
+public class CabStateTest {
 
     @Test
     public void oneIdleCabsAddedToEachCity() {
