@@ -1,5 +1,6 @@
 package com.bookmycab;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -14,33 +15,40 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.doReturn;
 
 public class IdleTimeTrackingTest {
+
+    private SystemDriver systemDriver;
+    private AppClock clock;
+    private Instant now;
+
+    @Before
+    public void setUp() {
+        clock = Mockito.mock(AppClock.class);
+        systemDriver = new SystemDriver(clock);
+        now = Instant.now();
+        doReturn(now).when(clock).now();
+    }
+
     @Test
     public void idleCabIdleTimeTrackingTest() {
-        AppClock clock = Mockito.mock(AppClock.class);
-        SystemDriver systemDriver = new SystemDriver(clock);
-
-        Instant now = Instant.now();
-        doReturn(now).when(clock).now();
         systemDriver.addCab("cab-1", IDLE, "city-1");
 
         assertThat(systemDriver.getCabIdleTime("cab-1"), equalTo(Duration.ZERO));
 
-        doReturn(now.plus(1, ChronoUnit.MINUTES)).when(clock).now();
+        progressTimeByAMinute();
         assertThat(systemDriver.getCabIdleTime("cab-1"), equalTo(Duration.of(1, ChronoUnit.MINUTES)));
     }
 
     @Test
     public void onTripCabIdleTimeTrackingTest() {
-        AppClock clock = Mockito.mock(AppClock.class);
-        SystemDriver systemDriver = new SystemDriver(clock);
-
-        Instant now = Instant.now();
-        doReturn(now).when(clock).now();
         systemDriver.addCab("cab-1", ON_TRIP, "city-1");
 
         assertThat(systemDriver.getCabIdleTime("cab-1"), equalTo(Duration.ZERO));
 
-        doReturn(now.plus(1, ChronoUnit.MINUTES)).when(clock).now();
+        progressTimeByAMinute();
         assertThat(systemDriver.getCabIdleTime("cab-1"), equalTo(Duration.ZERO));
+    }
+
+    public void progressTimeByAMinute() {
+        doReturn(now.plus(1, ChronoUnit.MINUTES)).when(clock).now();
     }
 }
