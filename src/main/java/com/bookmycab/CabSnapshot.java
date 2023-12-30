@@ -11,16 +11,7 @@ public class CabSnapshot {
 
     private final String city;
 
-    private Instant stateChangedAt;
-
-    public CabSnapshot(String id, CabState state, String city) {
-        this.id = id;
-        this.state = state;
-        if(state == CabState.ON_TRIP)
-            this.city = "INDETERMINATE";
-        else
-            this.city = city;
-    }
+    private final Instant stateChangedAt;
 
     public CabSnapshot(String id, CabState state, String city, Instant stateChangedAt) {
         this.id = id;
