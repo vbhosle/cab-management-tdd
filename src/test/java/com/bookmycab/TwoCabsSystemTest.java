@@ -67,7 +67,6 @@ public class TwoCabsSystemTest {
         int expectedRedCabCount = (int) (totalCount * 0.5); // 50% of the total count
         int tolerance = (int) (totalCount * 0.1); // 10% of the total count
 
-        // Assert that the counts are within the tolerance
         assertThat("Red cab count is not within the tolerance", Math.abs(redCabCount - expectedRedCabCount), lessThanOrEqualTo(tolerance));
     }
 

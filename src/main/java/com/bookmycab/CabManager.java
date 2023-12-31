@@ -12,14 +12,12 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class CabManager {
+public class CabManager extends Observable{
     private final AppClock clock;
 
     private final CabRepository cabRepository;
 
     private final Set<String> onboardedCities = new HashSet<>();
-
-    private final Map<String, List<CabEvent>> cabEvents = new HashMap<>();
 
     public CabManager(CabRepository cabRepository, AppClock clock) {
         this.cabRepository = cabRepository;
@@ -28,9 +26,14 @@ public class CabManager {
 
     public void registerCab(String cabId, CabState cabState, String cityId) {
         Instant now = clock.now();
-        cabRepository.addOrReplaceCab(new CabSnapshot(cabId, cabState, cityId, now));
-        cabEvents.put(cabId, new ArrayList<>());
-        cabEvents.get(cabId).add(new CabEvent(cabId, cabState, now.toEpochMilli()));
+        CabSnapshot cabSnapshot = new CabSnapshot(cabId, cabState, cityId, now);
+        addOrReplaceCab(cabSnapshot);
+    }
+
+    private void addOrReplaceCab(CabSnapshot cabSnapshot) {
+        cabRepository.addOrReplaceCab(cabSnapshot);
+        setChanged();
+        notifyObservers(CabEvent.from(cabSnapshot));
     }
 
     public CabSnapshot getCab(String cabId) {
@@ -61,7 +64,7 @@ public class CabManager {
 
     public void changeCurrentCityOfCab(String cabId, String currentCity) {
         CabSnapshot cabSnapshot = cabRepository.getCab(cabId);
-        cabRepository.addOrReplaceCab(cabSnapshot.withCurrentCity(currentCity));
+        addOrReplaceCab(cabSnapshot.withCurrentCity(currentCity));
     }
 
     public CabSnapshot book(String city) {
@@ -84,8 +87,7 @@ public class CabManager {
         Instant now = clock.now();
         CabSnapshot cabSnapshot = cabRepository.getCab(cabId);
         CabSnapshot newCabSnapshot = cabSnapshot.onTrip(now);
-        cabRepository.addOrReplaceCab(newCabSnapshot);
-        cabEvents.get(cabId).add(new CabEvent(cabId, newCabSnapshot.getState(), now.toEpochMilli()));
+        addOrReplaceCab(newCabSnapshot);
     }
 
     public void updateCabToIdle(String cabId, String currentCityId) {
@@ -94,8 +96,7 @@ public class CabManager {
             return;
         Instant now = clock.now();
         CabSnapshot newCabSnapshot = cabSnapshot.toIdle(currentCityId, now);
-        cabRepository.addOrReplaceCab(newCabSnapshot);
-        cabEvents.get(cabId).add(new CabEvent(cabId, newCabSnapshot.getState(), now.toEpochMilli()));
+        addOrReplaceCab(newCabSnapshot);
     }
 
     public Duration getCabIdleTime(String cabId) {
@@ -103,35 +104,5 @@ public class CabManager {
         if(cab.getState() == CabState.IDLE)
             return Duration.between(cab.getStateChangedAt(), clock.now());
         return Duration.ZERO;
-    }
-
-    public List<CabEvent> getCabEvents(String cabId) {
-        return cabEvents.get(cabId);
-    }
-
-    public Duration getCabIdleTimeBetween(String cabId, Instant from, Instant to) {
-        List<CabEvent> events = getCabEvents(cabId)
-                .stream()
-                .filter(cabEvent -> cabEvent.getCreatedAt() >= from.toEpochMilli())
-                .filter(cabEvent -> cabEvent.getCreatedAt() < to.toEpochMilli())
-                .collect(Collectors.toList());
-        // find first IDLE event. find time difference between that and next ON_TRIP event. do it in a loop
-        Duration totalIdleTime = Duration.ZERO;
-        for(int i = 0; i < events.size(); i++) {
-            CabEvent event = events.get(i);
-            if(event.getState() == CabState.IDLE) {
-                if(i + 1 < events.size()) {
-                    CabEvent nextEvent = events.get(i + 1);
-                    if(nextEvent.getState() == CabState.ON_TRIP) {
-                        totalIdleTime = totalIdleTime.plus(Duration.between(Instant.ofEpochMilli(event.getCreatedAt()), Instant.ofEpochMilli(nextEvent.getCreatedAt())));
-                    }
-                }
-                else {
-                    totalIdleTime = totalIdleTime.plus(Duration.between(Instant.ofEpochMilli(event.getCreatedAt()), clock.now()));
-                }
-            }
-        }
-
-        return totalIdleTime;
     }
 }

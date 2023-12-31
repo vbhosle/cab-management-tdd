@@ -1,6 +1,7 @@
 package com.bookmycab;
 
 import com.bookmycab.events.CabEvent;
+import com.bookmycab.listeners.CabEventListener;
 import com.bookmycab.repositories.InMemoryCabRepository;
 
 import java.time.Duration;
@@ -10,9 +11,12 @@ import java.util.List;
 public class SystemDriver {
 
     private final CabManager cabManager;
+    private final CabEventListener cabEventListener;
 
     public SystemDriver(AppClock clock) {
         cabManager = new CabManager(new InMemoryCabRepository(), clock);
+        cabEventListener = new CabEventListener(clock);
+        cabManager.addObserver(cabEventListener);
     }
 
     public CabSnapshot book(String city) {
@@ -53,10 +57,10 @@ public class SystemDriver {
     }
 
     public List<CabEvent> getCabEvents(String cabId) {
-        return cabManager.getCabEvents(cabId);
+        return cabEventListener.getCabEvents(cabId);
     }
 
     public Duration getCabIdleTimeBetween(String cabId, Instant from, Instant to) {
-        return cabManager.getCabIdleTimeBetween(cabId, from, to);
+        return cabEventListener.getCabIdleTimeBetween(cabId, from, to);
     }
 }

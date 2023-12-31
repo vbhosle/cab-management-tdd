@@ -1,5 +1,6 @@
 package com.bookmycab.events;
 
+import com.bookmycab.CabSnapshot;
 import com.bookmycab.CabState;
 
 public class CabEvent {
@@ -11,6 +12,10 @@ public class CabEvent {
         this.cabId = cabId;
         this.state = state;
         this.createdAt = createdAt;
+    }
+
+    public static CabEvent from(CabSnapshot cabSnapshot) {
+        return new CabEvent(cabSnapshot.getId(), cabSnapshot.getState(), cabSnapshot.getStateChangedAt().toEpochMilli());
     }
 
     public String getCabId() {
