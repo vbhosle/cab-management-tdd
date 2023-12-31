@@ -39,6 +39,20 @@ public class IdleTimeTrackingTest {
     }
 
     @Test
+    public void changingFromIdleToIdleDoesNotResetIdleTime() {
+        systemDriver.addCab("cab-1", IDLE, "city-1");
+
+        assertThat(systemDriver.getCabIdleTime("cab-1"), equalTo(Duration.ZERO));
+
+        progressTimeByAMinute();
+        assertThat(systemDriver.getCabIdleTime("cab-1"), equalTo(Duration.of(1, ChronoUnit.MINUTES)));
+
+        systemDriver.updateCabToIdle("cab-1", "city-1");
+        progressTimeByAMinute();
+        assertThat(systemDriver.getCabIdleTime("cab-1"), equalTo(Duration.of(2, ChronoUnit.MINUTES)));
+    }
+
+    @Test
     public void onTripCabIdleTimeIsAlwaysZero() {
         systemDriver.addCab("cab-1", ON_TRIP, "city-1");
 

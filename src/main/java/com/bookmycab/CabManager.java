@@ -62,6 +62,8 @@ public class CabManager {
 
     public void updateCabToIdle(String cabId, String currentCityId) {
         CabSnapshot cabSnapshot = cabRepository.getCab(cabId);
+        if(cabSnapshot.getState() == CabState.IDLE && cabSnapshot.getCity().equals(currentCityId))
+            return;
         cabRepository.addOrReplaceCab(cabSnapshot.toIdle(currentCityId, clock.now()));
     }
 
