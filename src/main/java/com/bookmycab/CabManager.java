@@ -112,7 +112,6 @@ public class CabManager {
                 }
             }
         }
-        // above is flawed logic
 
         return totalIdleTime;
     }
