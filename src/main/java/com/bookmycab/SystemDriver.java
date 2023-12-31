@@ -1,18 +1,13 @@
 package com.bookmycab;
 
 import com.bookmycab.events.CabEvent;
-import com.bookmycab.exception.CityNotOnboardedException;
 import com.bookmycab.repositories.InMemoryCabRepository;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class SystemDriver {
-
-    private final Set<String> onboardedCities = new HashSet<>();
 
     private final CabManager cabManager;
 
@@ -21,19 +16,15 @@ public class SystemDriver {
     }
 
     public CabSnapshot book(String city) {
-        if(!isCityOnboarded(city))
-            throw new CityNotOnboardedException();
-        CabSnapshot availableCab = cabManager.getCabForBooking(new BookingCriteria(city));
-        updateCabToOnTrip(availableCab.getId());
-        return availableCab;
+        return cabManager.book(city);
     }
 
     boolean isCityOnboarded(String city) {
-        return onboardedCities.contains(city);
+        return cabManager.isCityOnboarded(city);
     }
 
     public void onboardCity(String city) {
-        onboardedCities.add(city);
+        cabManager.onboardCity(city);
     }
 
     public void addCab(String cabId, CabState cabState, String cityId) {

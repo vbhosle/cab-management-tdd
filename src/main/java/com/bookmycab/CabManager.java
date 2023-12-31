@@ -2,6 +2,7 @@ package com.bookmycab;
 
 import com.bookmycab.events.CabEvent;
 import com.bookmycab.exception.CabNotAvailableException;
+import com.bookmycab.exception.CityNotOnboardedException;
 import com.bookmycab.repositories.CabRepository;
 
 import java.time.Duration;
@@ -15,6 +16,8 @@ public class CabManager {
     private final AppClock clock;
 
     private final CabRepository cabRepository;
+
+    private final Set<String> onboardedCities = new HashSet<>();
 
     private final Map<String, List<CabEvent>> cabEvents = new HashMap<>();
 
@@ -59,6 +62,22 @@ public class CabManager {
     public void changeCurrentCityOfCab(String cabId, String currentCity) {
         CabSnapshot cabSnapshot = cabRepository.getCab(cabId);
         cabRepository.addOrReplaceCab(cabSnapshot.withCurrentCity(currentCity));
+    }
+
+    public CabSnapshot book(String city) {
+        if(!isCityOnboarded(city))
+            throw new CityNotOnboardedException();
+        CabSnapshot availableCab = getCabForBooking(new BookingCriteria(city));
+        updateCabToOnTrip(availableCab.getId());
+        return availableCab;
+    }
+
+    boolean isCityOnboarded(String city) {
+        return onboardedCities.contains(city);
+    }
+
+    public void onboardCity(String city) {
+        onboardedCities.add(city);
     }
 
     public void updateCabToOnTrip(String cabId) {
