@@ -1,7 +1,7 @@
 package com.bookmycab;
 
 import com.bookmycab.exception.CabNotAvailableException;
-import com.bookmycab.repositories.InMemoryCabRepository;
+import com.bookmycab.repositories.CabRepository;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -13,9 +13,9 @@ import java.util.stream.Collectors;
 public class CabManager {
     private final AppClock clock;
 
-    private final InMemoryCabRepository cabRepository;
+    private final CabRepository cabRepository;
 
-    public CabManager(InMemoryCabRepository cabRepository, AppClock clock) {
+    public CabManager(CabRepository cabRepository, AppClock clock) {
         this.cabRepository = cabRepository;
         this.clock = clock;
     }
