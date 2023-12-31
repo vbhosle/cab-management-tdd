@@ -1,6 +1,8 @@
 package com.bookmycab;
 
 import com.bookmycab.exception.CabNotAvailableException;
+import com.bookmycab.models.CabSnapshot;
+import com.bookmycab.models.CabState;
 import org.junit.Before;
 import org.junit.Test;
 

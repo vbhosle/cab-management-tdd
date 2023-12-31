@@ -1,6 +1,7 @@
 package com.bookmycab;
 
 import com.bookmycab.events.CabEvent;
+import com.bookmycab.models.CabState;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;

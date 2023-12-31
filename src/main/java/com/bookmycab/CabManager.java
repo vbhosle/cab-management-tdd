@@ -3,6 +3,9 @@ package com.bookmycab;
 import com.bookmycab.events.CabEvent;
 import com.bookmycab.exception.CabNotAvailableException;
 import com.bookmycab.exception.CityNotOnboardedException;
+import com.bookmycab.models.Booking;
+import com.bookmycab.models.CabSnapshot;
+import com.bookmycab.models.CabState;
 import com.bookmycab.repositories.CabRepository;
 
 import java.time.Duration;

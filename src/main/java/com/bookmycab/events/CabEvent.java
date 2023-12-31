@@ -1,7 +1,7 @@
 package com.bookmycab.events;
 
-import com.bookmycab.CabSnapshot;
-import com.bookmycab.CabState;
+import com.bookmycab.models.CabSnapshot;
+import com.bookmycab.models.CabState;
 
 public class CabEvent {
     private final String cabId;

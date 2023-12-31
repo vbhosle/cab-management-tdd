@@ -1,5 +1,6 @@
-package com.bookmycab;
+package com.bookmycab.models;
 
+import com.bookmycab.CabConstants;
 import com.bookmycab.exception.OperationNotAllowedWhileOnTripException;
 
 import java.time.Instant;

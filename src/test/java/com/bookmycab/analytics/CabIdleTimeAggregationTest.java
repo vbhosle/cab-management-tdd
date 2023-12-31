@@ -10,8 +10,8 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
-import static com.bookmycab.CabState.IDLE;
-import static com.bookmycab.CabState.ON_TRIP;
+import static com.bookmycab.models.CabState.IDLE;
+import static com.bookmycab.models.CabState.ON_TRIP;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;

@@ -1,5 +1,8 @@
 package com.bookmycab;
 
+import com.bookmycab.models.Booking;
+import com.bookmycab.models.CabSnapshot;
+import com.bookmycab.models.CabState;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;

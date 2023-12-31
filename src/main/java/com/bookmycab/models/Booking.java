@@ -1,4 +1,4 @@
-package com.bookmycab;
+package com.bookmycab.models;
 
 public class Booking {
     private final CabSnapshot cabSnapshot;

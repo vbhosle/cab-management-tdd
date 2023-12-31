@@ -1,7 +1,7 @@
 package com.bookmycab.listeners;
 
 import com.bookmycab.AppClock;
-import com.bookmycab.CabState;
+import com.bookmycab.models.CabState;
 import com.bookmycab.events.CabEvent;
 
 import java.time.Duration;

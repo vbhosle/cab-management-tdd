@@ -1,14 +1,13 @@
 package com.bookmycab.analytics;
 
-import static com.bookmycab.CabState.IDLE;
-import static com.bookmycab.CabState.ON_TRIP;
+import static com.bookmycab.models.CabState.IDLE;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.doReturn;
 
 import com.bookmycab.AppClock;
 import com.bookmycab.SystemDriver;
-import java.time.Duration;
+
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import org.junit.Before;

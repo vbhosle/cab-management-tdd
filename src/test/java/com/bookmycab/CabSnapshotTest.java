@@ -1,10 +1,11 @@
 package com.bookmycab;
 
+import com.bookmycab.models.CabSnapshot;
 import org.junit.Test;
 
 import java.time.Instant;
 
-import static com.bookmycab.CabState.IDLE;
+import static com.bookmycab.models.CabState.IDLE;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNotSame;

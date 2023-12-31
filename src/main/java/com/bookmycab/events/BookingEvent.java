@@ -1,7 +1,7 @@
 package com.bookmycab.events;
 
-import com.bookmycab.Booking;
-import com.bookmycab.CabSnapshot;
+import com.bookmycab.models.Booking;
+import com.bookmycab.models.CabSnapshot;
 
 import java.util.Objects;
 import java.util.UUID;

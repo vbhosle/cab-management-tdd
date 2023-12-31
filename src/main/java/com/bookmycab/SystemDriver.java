@@ -3,6 +3,9 @@ package com.bookmycab;
 import com.bookmycab.events.CabEvent;
 import com.bookmycab.listeners.CabEventListener;
 import com.bookmycab.listeners.CityDemandTracker;
+import com.bookmycab.models.Booking;
+import com.bookmycab.models.CabSnapshot;
+import com.bookmycab.models.CabState;
 import com.bookmycab.repositories.InMemoryCabRepository;
 
 import java.time.Duration;
