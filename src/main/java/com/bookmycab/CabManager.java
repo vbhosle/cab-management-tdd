@@ -1,5 +1,6 @@
 package com.bookmycab;
 
+import com.bookmycab.events.CabEvent;
 import com.bookmycab.exception.CabNotAvailableException;
 import com.bookmycab.repositories.CabRepository;
 
@@ -15,6 +16,8 @@ public class CabManager {
 
     private final CabRepository cabRepository;
 
+    private final Map<String, List<CabEvent>> cabEvents = new HashMap<>();
+
     public CabManager(CabRepository cabRepository, AppClock clock) {
         this.cabRepository = cabRepository;
         this.clock = clock;
@@ -22,6 +25,8 @@ public class CabManager {
 
     public void registerCab(String cabId, CabState cabState, String cityId) {
         cabRepository.addOrReplaceCab(new CabSnapshot(cabId, cabState, cityId, clock.now()));
+        cabEvents.put(cabId, new ArrayList<>());
+        cabEvents.get(cabId).add(new CabEvent(cabId, cabState));
     }
 
     public CabSnapshot getCab(String cabId) {
@@ -46,8 +51,8 @@ public class CabManager {
                 .orElseThrow(CabNotAvailableException::new);
     }
 
-    private static <T extends Comparable<T>> boolean hasConflict(List<CabSnapshot> filteredList, Function<CabSnapshot, T> conflictResolutionCriteria) {
-        return filteredList.stream().map(conflictResolutionCriteria).distinct().count() == 1;
+    private static <T extends Comparable<T>> boolean hasConflict(List<CabSnapshot> filteredList, Function<CabSnapshot, T> conflictDetectionKey) {
+        return filteredList.stream().map(conflictDetectionKey).distinct().count() == 1;
     }
 
     public void changeCurrentCityOfCab(String cabId, String currentCity) {
@@ -72,5 +77,9 @@ public class CabManager {
         if(cab.getState() == CabState.IDLE)
             return Duration.between(cab.getStateChangedAt(), clock.now());
         return Duration.ZERO;
+    }
+
+    public List<CabEvent> getCabEvents(String cabId) {
+        return cabEvents.get(cabId);
     }
 }

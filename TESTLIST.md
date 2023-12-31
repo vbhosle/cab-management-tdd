@@ -50,3 +50,18 @@
 # Refactoring
 - Cab current location and state are variable. They collectively form a state of the cab. So, they should be encapsulated in a class.
 - Move cab state and location change into another class.
+
+a. Provide insights such as for how much time was a cab idle in a given duration ?
+- Cab was idle for whole day. Any hour during that day cab was idle for 60 mins.
+- Cab was on-trip for whole day. Any hour during that day cab was idle for 0 mins.
+- In an hour cab was on-trip twice once for 15 mins, and once for 30 mins. So, cab was idle for 15 mins in that hour.
+- Overlapping hours: Cab was idle from 6am to 7am, between 7am to 8am it was on-trip. So from 6.30-7.30 it was idle for 30 mins.
+b. Keep a record of the cab history of each cab. (A cab history could just be a record of
+what all states a cab has gone through)
+- When IDLE cab is added to system. Cab history of the cab has one entry for IDLE state.
+- When ON_TRIP cab is added to system. Cab history of the cab has one entry for ON_TRIP state.
+- Add IDLE cab, change state to ON_TRIP, then IDLE. Cab history of the cab has three entries for IDLE, ON_TRIP, IDLE state.
+- Change city of IDLE cab. Cab history of the cab has three entries for IDLE, ON_TRIP, IDLE state.
+- Changing city of ON_TRIP cab doesn't change cab history.
+
+c. Find cities where the demand for cabs is high and the time when the demand is highest
