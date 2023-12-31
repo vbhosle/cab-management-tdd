@@ -24,9 +24,10 @@ public class CabManager {
     }
 
     public void registerCab(String cabId, CabState cabState, String cityId) {
-        cabRepository.addOrReplaceCab(new CabSnapshot(cabId, cabState, cityId, clock.now()));
+        Instant now = clock.now();
+        cabRepository.addOrReplaceCab(new CabSnapshot(cabId, cabState, cityId, now));
         cabEvents.put(cabId, new ArrayList<>());
-        cabEvents.get(cabId).add(new CabEvent(cabId, cabState));
+        cabEvents.get(cabId).add(new CabEvent(cabId, cabState, now.toEpochMilli()));
     }
 
     public CabSnapshot getCab(String cabId) {
@@ -61,15 +62,21 @@ public class CabManager {
     }
 
     public void updateCabToOnTrip(String cabId) {
+        Instant now = clock.now();
         CabSnapshot cabSnapshot = cabRepository.getCab(cabId);
-        cabRepository.addOrReplaceCab(cabSnapshot.onTrip(clock.now()));
+        CabSnapshot newCabSnapshot = cabSnapshot.onTrip(now);
+        cabRepository.addOrReplaceCab(newCabSnapshot);
+        cabEvents.get(cabId).add(new CabEvent(cabId, newCabSnapshot.getState(), now.toEpochMilli()));
     }
 
     public void updateCabToIdle(String cabId, String currentCityId) {
         CabSnapshot cabSnapshot = cabRepository.getCab(cabId);
         if(cabSnapshot.getState() == CabState.IDLE && cabSnapshot.getCity().equals(currentCityId))
             return;
-        cabRepository.addOrReplaceCab(cabSnapshot.toIdle(currentCityId, clock.now()));
+        Instant now = clock.now();
+        CabSnapshot newCabSnapshot = cabSnapshot.toIdle(currentCityId, now);
+        cabRepository.addOrReplaceCab(newCabSnapshot);
+        cabEvents.get(cabId).add(new CabEvent(cabId, newCabSnapshot.getState(), now.toEpochMilli()));
     }
 
     public Duration getCabIdleTime(String cabId) {
