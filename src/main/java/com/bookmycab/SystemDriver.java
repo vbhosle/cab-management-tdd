@@ -5,6 +5,7 @@ import com.bookmycab.exception.CityNotOnboardedException;
 import com.bookmycab.repositories.InMemoryCabRepository;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -62,5 +63,9 @@ public class SystemDriver {
 
     public List<CabEvent> getCabEvents(String cabId) {
         return cabManager.getCabEvents(cabId);
+    }
+
+    public Duration getCabIdleTimeBetween(String cabId, Instant from, Instant to) {
+        return cabManager.getCabIdleTimeBetween(cabId, from, to);
     }
 }

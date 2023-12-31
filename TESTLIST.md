@@ -52,9 +52,9 @@
 - Move cab state and location change into another class.
 
 a. Provide insights such as for how much time was a cab idle in a given duration ?
-- Cab was idle for whole day. Any hour during that day cab was idle for 60 mins.
+- ~~Cab was idle for whole day. Any hour during that day cab was idle for 60 mins.~~
 - Cab was on-trip for whole day. Any hour during that day cab was idle for 0 mins.
-- In an hour cab was on-trip twice once for 15 mins, and once for 30 mins. So, cab was idle for 15 mins in that hour.
+- ~~In an hour cab was on-trip twice once for 15 mins, and once for 30 mins. So, cab was idle for 15 mins in that hour.~~
 - Overlapping hours: Cab was idle from 6am to 7am, between 7am to 8am it was on-trip. So from 6.30-7.30 it was idle for 30 mins.
 b. Keep a record of the cab history of each cab. (A cab history could just be a record of
 what all states a cab has gone through)
