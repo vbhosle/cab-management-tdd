@@ -67,12 +67,14 @@ public class CabManager extends Observable{
         addOrReplaceCab(cabSnapshot.withCurrentCity(currentCity));
     }
 
-    public CabSnapshot book(String city) {
+    public Booking book(String city) {
         if(!isCityOnboarded(city))
             throw new CityNotOnboardedException();
         CabSnapshot availableCab = getCabForBooking(new BookingCriteria(city));
-        updateCabToOnTrip(availableCab.getId());
-        return availableCab;
+        CabSnapshot onTripCab = updateCabToOnTrip(availableCab.getId());
+        Booking booking = new Booking(onTripCab);
+        notifyObservers(booking);
+        return booking;
     }
 
     boolean isCityOnboarded(String city) {
@@ -83,11 +85,12 @@ public class CabManager extends Observable{
         onboardedCities.add(city);
     }
 
-    public void updateCabToOnTrip(String cabId) {
+    public CabSnapshot updateCabToOnTrip(String cabId) {
         Instant now = clock.now();
         CabSnapshot cabSnapshot = cabRepository.getCab(cabId);
         CabSnapshot newCabSnapshot = cabSnapshot.onTrip(now);
         addOrReplaceCab(newCabSnapshot);
+        return newCabSnapshot;
     }
 
     public void updateCabToIdle(String cabId, String currentCityId) {

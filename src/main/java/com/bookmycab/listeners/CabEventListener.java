@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class CabEventListener implements Observer {
-    private final Map<String, List<CabEvent>> cabEvents = new HashMap<>();
+    private final Map<String, List<CabEvent>> cabIdToCabEvents = new HashMap<>();
 
     private final AppClock clock;
 
@@ -22,7 +22,7 @@ public class CabEventListener implements Observer {
     public void update(Observable o, Object arg) {
         if(arg instanceof CabEvent) {
             CabEvent cabEvent = (CabEvent) arg;
-            cabEvents.computeIfAbsent(cabEvent.getCabId(), x -> new ArrayList<>()).add(cabEvent);
+            cabIdToCabEvents.computeIfAbsent(cabEvent.getCabId(), x -> new ArrayList<>()).add(cabEvent);
         }
     }
 
@@ -53,7 +53,7 @@ public class CabEventListener implements Observer {
     }
 
     public List<CabEvent> getCabEvents(String cabId) {
-        return cabEvents.get(cabId);
+        return cabIdToCabEvents.get(cabId);
     }
 
 }

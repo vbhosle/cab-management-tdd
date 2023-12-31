@@ -2,6 +2,7 @@ package com.bookmycab;
 
 import com.bookmycab.events.CabEvent;
 import com.bookmycab.listeners.CabEventListener;
+import com.bookmycab.listeners.CityDemandTracker;
 import com.bookmycab.repositories.InMemoryCabRepository;
 
 import java.time.Duration;
@@ -12,14 +13,17 @@ public class SystemDriver {
 
     private final CabManager cabManager;
     private final CabEventListener cabEventListener;
+    private final CityDemandTracker cityDemandTracker;
 
     public SystemDriver(AppClock clock) {
         cabManager = new CabManager(new InMemoryCabRepository(), clock);
         cabEventListener = new CabEventListener(clock);
+        cityDemandTracker = new CityDemandTracker();
         cabManager.addObserver(cabEventListener);
+        cabManager.addObserver(cityDemandTracker);
     }
 
-    public CabSnapshot book(String city) {
+    public Booking book(String city) {
         return cabManager.book(city);
     }
 
@@ -62,5 +66,9 @@ public class SystemDriver {
 
     public Duration getCabIdleTimeBetween(String cabId, Instant from, Instant to) {
         return cabEventListener.getCabIdleTimeBetween(cabId, from, to);
+    }
+
+    public List<String> getHighDemandCities(Instant from, Instant to, int limit) {
+        return cityDemandTracker.getCitiesWithHighestBookings(from.toEpochMilli(), to.toEpochMilli(), limit);
     }
 }
