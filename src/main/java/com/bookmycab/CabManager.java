@@ -1,5 +1,6 @@
 package com.bookmycab;
 
+import com.bookmycab.events.BookingEvent;
 import com.bookmycab.events.CabEvent;
 import com.bookmycab.exception.CabNotAvailableException;
 import com.bookmycab.exception.CityNotOnboardedException;
@@ -75,8 +76,9 @@ public class CabManager extends Observable{
             throw new CityNotOnboardedException();
         CabSnapshot availableCab = getCabForBooking(new BookingCriteria(city));
         CabSnapshot onTripCab = updateCabToOnTrip(availableCab.getId());
-        Booking booking = new Booking(onTripCab);
-        notifyObservers(booking);
+        Booking booking = new Booking(onTripCab.getId(), city, onTripCab.getStateChangedAt().toEpochMilli());
+        setChanged();
+        notifyObservers(new BookingEvent(booking));
         return booking;
     }
 

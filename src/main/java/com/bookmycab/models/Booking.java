@@ -1,16 +1,23 @@
 package com.bookmycab.models;
 
 public class Booking {
-    private final CabSnapshot cabSnapshot;
+
+    private final String cabId;
+    private final String cityId;
     private final long bookedAt;
 
-    public Booking(CabSnapshot cabSnapshot) {
-        this.cabSnapshot = cabSnapshot;
-        this.bookedAt = cabSnapshot.getStateChangedAt().toEpochMilli();
+    public Booking(String cabId, String cityId, long bookedAt) {
+        this.cabId = cabId;
+        this.cityId = cityId;
+        this.bookedAt = bookedAt;
     }
 
-    public CabSnapshot getCabSnapshot() {
-        return this.cabSnapshot;
+    public String getCabId() {
+        return this.cabId;
+    }
+
+    public String getCityId() {
+        return this.cityId;
     }
 
     public long getBookedAt() {

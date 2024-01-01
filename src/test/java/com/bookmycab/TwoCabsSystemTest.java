@@ -60,7 +60,7 @@ public class TwoCabsSystemTest {
 
         for(int i = 0; i < 100; i++) {
             Booking booking = systemDriver.book("city-1");
-            if(booking.getCabSnapshot().getId().equals("cab-red")) redCabCount++;
+            if(booking.getCabId().equals("cab-red")) redCabCount++;
             else blueCabCount++;
             systemDriver.updateCabToIdle("cab-red", "city-1");
             systemDriver.updateCabToIdle("cab-blue", "city-1");
